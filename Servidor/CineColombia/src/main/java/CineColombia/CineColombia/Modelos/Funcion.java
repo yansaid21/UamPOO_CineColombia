@@ -2,6 +2,7 @@ package CineColombia.CineColombia.Modelos;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -13,6 +14,26 @@ public class Funcion {
     int dia;
     int mes;
     int año;
+    @DBRef
+    Sala sala;
+    @DBRef
+    Pelicula pelicula;
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(Sala sala) {
+        this.sala = sala;
+    }
+
+    public Pelicula getPelicula() {
+        return pelicula;
+    }
+
+    public void setPelicula(Pelicula pelicula) {
+        this.pelicula = pelicula;
+    }
 
     public Funcion(int hora, int dia, int mes, int año) {
         this.hora = hora;

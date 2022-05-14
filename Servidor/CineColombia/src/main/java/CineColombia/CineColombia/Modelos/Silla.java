@@ -2,6 +2,7 @@ package CineColombia.CineColombia.Modelos;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -11,6 +12,26 @@ public class Silla {
     String _id;
     String letra;
     int numero;
+    @DBRef
+    Boleto boleto;
+    @DBRef
+    Silla silla;
+
+    public Silla getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Silla silla) {
+        this.silla = silla;
+    }
+
+    public Boleto getBoleto() {
+        return boleto;
+    }
+
+    public void setBoleto(Boleto boleto) {
+        this.boleto = boleto;
+    }
 
     public Silla(String letra, int numero) {
         this.letra = letra;
