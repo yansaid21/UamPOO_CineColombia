@@ -32,6 +32,11 @@ public class ControladorUsuario {
                 .orElseThrow(RuntimeException::new);
         return UsuarioActual;
     }
+    @GetMapping("/cedula/{cedula}")
+    public Usuario buscarPorCedula(@PathVariable String cedula){
+        Usuario usuarioActual=this.miRepositorioUsuario.getUsuario(cedula);
+        return usuarioActual;
+    }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id){

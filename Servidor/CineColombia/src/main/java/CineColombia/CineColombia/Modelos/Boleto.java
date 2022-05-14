@@ -12,6 +12,7 @@ public class Boleto {
     String _id;
     double valor;
     String tipo;
+    //String referencia;
     @DBRef
     Usuario usuario;
     @DBRef

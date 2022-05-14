@@ -1,6 +1,10 @@
 package CineColombia.CineColombia.Controladores;
 
+import CineColombia.CineColombia.Modelos.Boleto;
+import CineColombia.CineColombia.Modelos.Sala;
 import CineColombia.CineColombia.Modelos.Silla;
+import CineColombia.CineColombia.Repositorios.RepositorioBoleto;
+import CineColombia.CineColombia.Repositorios.RepositorioSala;
 import CineColombia.CineColombia.Repositorios.RepositorioSilla;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +18,10 @@ import java.util.List;
 public class ControladorSilla {
     @Autowired
     private RepositorioSilla miRepositorioSilla;
+    @Autowired
+    private RepositorioBoleto miRepositorioBoleto;
+    @Autowired
+    private RepositorioSala miRepositorioSala;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,14 +50,37 @@ public class ControladorSilla {
     }
     @PutMapping("{id}")
     public Silla update(@PathVariable String id,@RequestBody  Silla infoSilla){
-        Silla SillaActual=this.miRepositorioSilla
+        Silla sillaActual=this.miRepositorioSilla
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
-        SillaActual.setLetra(infoSilla.getLetra());
-        SillaActual.setNumero(infoSilla.getNumero());
-        return this.miRepositorioSilla.save(SillaActual);
+        sillaActual.setLetra(infoSilla.getLetra());
+        sillaActual.setNumero(infoSilla.getNumero());
+        return this.miRepositorioSilla.save(sillaActual);
     }
+    @PutMapping("{id_silla}/boleto/{id_boleto}")
+    public Silla updateBoleto(@PathVariable String id_silla, @PathVariable  String id_boleto){
+        Silla sillaActual=this.miRepositorioSilla
+                .findById(id_silla)
+                .orElseThrow(RuntimeException::new);
+        Boleto boletoActual=this.miRepositorioBoleto
+                .findById(id_boleto)
+                .orElseThrow(RuntimeException::new);
 
+        sillaActual.setBoleto(boletoActual); ;
+        return this.miRepositorioSilla.save(sillaActual);
+    }
+    @PutMapping("{id_silla}/sala/{id_sala}")
+    public Silla updateSala(@PathVariable String id_silla, @PathVariable  String id_sala){
+        Silla sillaActual=this.miRepositorioSilla
+                .findById(id_silla)
+                .orElseThrow(RuntimeException::new);
+        Sala salaActual =this.miRepositorioSala
+                .findById(id_sala)
+                .orElseThrow(RuntimeException::new);
+
+        sillaActual.setSala(salaActual); ;
+        return this.miRepositorioSilla.save(sillaActual);
+    }
 
 
 }

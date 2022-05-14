@@ -15,14 +15,14 @@ public class Silla {
     @DBRef
     Boleto boleto;
     @DBRef
-    Silla silla;
+    Sala sala;
 
-    public Silla getSilla() {
-        return silla;
+    public Sala getSala() {
+        return sala;
     }
 
-    public void setSilla(Silla silla) {
-        this.silla = silla;
+    public void setSala(Sala sala) {
+        this.sala = sala;
     }
 
     public Boleto getBoleto() {
