@@ -7,6 +7,8 @@ package Controladores;
 
 import Modelos.Boleto;
 import Modelos.Funcion;
+import Modelos.Pelicula;
+import Modelos.Sala;
 import Servicios.Servicio;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,12 +21,12 @@ public class ControladorFuncion {
     Servicio miServicio;
     String subUrl;
 
-    public ControladorFuncion(Servicio miServicio, String subUrl) {
-        this.miServicio = miServicio;
+    public ControladorFuncion(String server, String subUrl) {
+        this.miServicio = new Servicio(server) ;
         this.subUrl = subUrl;
     }
     
-    public Funcion armar(String jsonString){
+    public Funcion armar(String jsonString,Sala miSala,Pelicula miPelicula){
         Funcion nuevaFuncion = new Funcion();
         try {
             JSONParser parser = new JSONParser();
@@ -34,17 +36,19 @@ public class ControladorFuncion {
             nuevaFuncion.setDia((Integer)funcionJson.get("dia"));
             nuevaFuncion.setAño((Integer)funcionJson.get("año"));
             nuevaFuncion.setMes((Integer)funcionJson.get("mes"));
+            nuevaFuncion.setMiSala(miSala);
+            nuevaFuncion.setMiPelicula(miPelicula);
         } catch (Exception e) {
             nuevaFuncion = null;
         }
         return nuevaFuncion;
     }
     
-    public Funcion crear (Funcion nuevaFuncion){
+    public Funcion crear (Funcion nuevaFuncion,Sala miSala,Pelicula miPelicula){
         Funcion respuesta = new Funcion();
         try {
             String resultado = this.miServicio.POST(this.subUrl, nuevaFuncion.toJson());
-            respuesta = armar(resultado);
+            respuesta = armar(resultado,miSala,miPelicula);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
             respuesta=null;

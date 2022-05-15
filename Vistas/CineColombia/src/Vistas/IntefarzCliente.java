@@ -12,7 +12,10 @@ import Controladores.ControladorSala;
 import Controladores.ControladorSilla;
 import Controladores.ControladorUsuario;
 import Modelos.Funcion;
+import Modelos.Pelicula;
 import Modelos.Sala;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,13 +28,18 @@ public class IntefarzCliente extends javax.swing.JFrame {
     ControladorSala miControladorSala;
     ControladorSilla miControladorSilla;
     ControladorUsuario miControladorUsuario;
-    
+    String urlServidor="http://127.0.0.1:8080";
     /**
      * Creates new form IntefarzCliente
      */
     public IntefarzCliente() {
         initComponents();
         boxTipoBoleto();
+        
+        this.miControladorSala=new ControladorSala(urlServidor, "/salas");
+        this.miControladorPelicula= new ControladorPelicula(urlServidor, "/peliculas");
+        
+        this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
         crearSalasFunciones();
     }
 
@@ -45,12 +53,28 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
         Sala sala1= new Sala("sala1", true);
         Sala sala2= new Sala("sala2", false);
+        
         sala1=this.miControladorSala.crear(sala1);
         sala2=this.miControladorSala.crear(sala2);
+        
+        Pelicula pelicula1= new Pelicula("Batman", 2022, "comedia");
+        pelicula1=this.miControladorPelicula.crear(pelicula1);
+        
+        System.out.println("--------------------- ");
+        
         Funcion funcion1 = new Funcion(10, 20, 8, 22);
         Funcion funcion2 = new Funcion(15, 25, 4, 22);
-        funcion1=this.miControladorFuncion.crear(funcion1);
-        funcion2=this.miControladorFuncion.crear(funcion2);
+        System.out.println("*******");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(IntefarzCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("/funciones/sala/"+sala1.getId()+"/pelicula/"+pelicula1.getId());
+        this.miControladorFuncion=new ControladorFuncion(urlServidor, "/funciones/sala/"+sala1.getId()+"/pelicula/"+pelicula1.getId()); 
+        funcion1=this.miControladorFuncion.crear(funcion1,sala1,pelicula1);
+        funcion2=this.miControladorFuncion.crear(funcion2,sala2,pelicula1);
+        
         sala1.getMisFunciones().add(funcion1);
         funcion1.setMiSala(sala1);
         sala2.getMisFunciones().add(funcion2);

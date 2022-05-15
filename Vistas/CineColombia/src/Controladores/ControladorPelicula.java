@@ -5,6 +5,7 @@
  */
 package Controladores;
 
+import Modelos.Funcion;
 import Modelos.Pelicula;
 import Servicios.Servicio;
 import org.json.simple.JSONObject;
@@ -18,8 +19,8 @@ public class ControladorPelicula {
     Servicio miServicio;
     String subUrl;
 
-    public ControladorPelicula(Servicio miServicio, String subUrl) {
-        this.miServicio = miServicio;
+    public ControladorPelicula(String server, String subUrl) {
+        this.miServicio = new Servicio(server);
         this.subUrl = subUrl;
     }
     
@@ -36,6 +37,18 @@ public class ControladorPelicula {
             nuevaPelicula = null;
         }
         return nuevaPelicula;
+    }
+    
+    public Pelicula crear (Pelicula nuevaPelicula){
+        Pelicula respuesta = new Pelicula();
+        try {
+            String resultado = this.miServicio.POST(this.subUrl, nuevaPelicula.toJson());
+            respuesta = armar(resultado);
+        } catch (Exception e) {
+            System.out.println("ERROR "+e);
+            respuesta=null;
+        }
+        return respuesta;
     }
     
 }

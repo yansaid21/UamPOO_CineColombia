@@ -6,6 +6,7 @@
 package Modelos;
 
 import java.util.LinkedList;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -29,6 +30,14 @@ public class Pelicula {
         this.misFunciones = new LinkedList<>();
     }
 
+    public JSONObject toJson() {
+        JSONObject respuesta = new JSONObject();
+        respuesta.put("nombre", this.getNombre());
+        respuesta.put("año", this.getAño());
+        respuesta.put("tipo", this.getTipo());
+        return respuesta;
+    }
+    
     public String getId() {
         return _id;
     }

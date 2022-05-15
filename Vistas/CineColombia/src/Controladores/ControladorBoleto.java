@@ -18,8 +18,8 @@ public class ControladorBoleto {
     Servicio miServicio;
     String subUrl;
 
-    public ControladorBoleto(Servicio miServicio, String subUrl) {
-        this.miServicio = miServicio;
+    public ControladorBoleto(String server, String subUrl) {
+        this.miServicio = new Servicio(server);
         this.subUrl = subUrl;
     }
     

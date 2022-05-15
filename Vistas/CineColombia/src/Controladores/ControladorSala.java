@@ -19,8 +19,8 @@ public class ControladorSala {
     Servicio miServicio;
     String subUrl;
 
-    public ControladorSala(Servicio miServicio, String subUrl) {
-        this.miServicio = miServicio;
+    public ControladorSala(String server, String subUrl) {
+        this.miServicio = new Servicio(server);
         this.subUrl = subUrl;
     }
 
@@ -37,8 +37,6 @@ public class ControladorSala {
         }
         return nuevaSala;
     }
-    
-    
 
     public Sala crear(Sala sala1) {
         Sala respuesta = new Sala();
