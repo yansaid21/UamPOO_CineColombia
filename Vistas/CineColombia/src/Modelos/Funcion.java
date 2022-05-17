@@ -17,7 +17,7 @@ public class Funcion {
     private int hora;
     private int dia;
     private int mes;
-    private int año;
+    private int ano;
 
     private Pelicula miPelicula;
     private Sala miSala;
@@ -30,7 +30,7 @@ public class Funcion {
         this.hora = hora;
         this.dia = dia;
         this.mes = mes;
-        this.año = año;
+        this.ano = año;
         this.misBoletos = new LinkedList<>();
     }
     
@@ -60,7 +60,7 @@ public class Funcion {
     }
 
     public int getAño() {
-        return año;
+        return ano;
     }
 
     public void setId(String _id) {
@@ -80,7 +80,7 @@ public class Funcion {
     }
 
     public void setAño(int año) {
-        this.año = año;
+        this.ano = año;
     }
 
     /**

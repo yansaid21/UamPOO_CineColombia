@@ -15,7 +15,7 @@ import org.json.simple.JSONObject;
 public class Pelicula {
     private String _id;
     private String nombre;
-    private int año;
+    private int ano;
     private String tipo;
 
     private LinkedList <Funcion> misFunciones;
@@ -25,7 +25,7 @@ public class Pelicula {
 
     public Pelicula( String nombre, int año, String tipo) {
         this.nombre = nombre;
-        this.año = año;
+        this.ano = año;
         this.tipo = tipo;
         this.misFunciones = new LinkedList<>();
     }
@@ -33,7 +33,7 @@ public class Pelicula {
     public JSONObject toJson() {
         JSONObject respuesta = new JSONObject();
         respuesta.put("nombre", this.getNombre());
-        respuesta.put("año", this.getAño());
+        respuesta.put("ano", this.getAno());
         respuesta.put("tipo", this.getTipo());
         return respuesta;
     }
@@ -46,8 +46,8 @@ public class Pelicula {
         return nombre;
     }
 
-    public int getAño() {
-        return año;
+    public int getAno() {
+        return ano;
     }
 
     public String getTipo() {
@@ -62,8 +62,8 @@ public class Pelicula {
         this.nombre = nombre;
     }
 
-    public void setAño(int año) {
-        this.año = año;
+    public void setAno(int año) {
+        this.ano = año;
     }
 
     public void setTipo(String tipo) {
