@@ -51,7 +51,7 @@ public class ControladorUsuario {
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
         UsuarioActual.setNombre(infoUsuario.getNombre());
-        UsuarioActual.setAñoNacimiento(infoUsuario.getAñoNacimiento());
+        UsuarioActual.setAnoNacimiento(infoUsuario.getAnoNacimiento());
         UsuarioActual.setCedula(infoUsuario.getCedula());
         UsuarioActual.setEmail(infoUsuario.getEmail());
         return this.miRepositorioUsuario.save(UsuarioActual);

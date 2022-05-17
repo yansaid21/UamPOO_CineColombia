@@ -12,13 +12,13 @@ public class Usuario {
     String cedula;
     String nombre;
     String email;
-    int añoNacimiento;
+    int anoNacimiento;
 
-    public Usuario(String cedula, String nombre, String email, int añoNaciemto) {
+    public Usuario(String cedula, String nombre, String email, int anoNaciemto) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.email = email;
-        this.añoNacimiento = añoNaciemto;
+        this.anoNacimiento = anoNaciemto;
     }
 
     public String get_id() {
@@ -49,11 +49,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public int getAñoNacimiento() {
-        return añoNacimiento;
+    public int getAnoNacimiento() {
+        return anoNacimiento;
     }
 
-    public void setAñoNacimiento(int añoNacimiento) {
-        this.añoNacimiento = añoNacimiento;
+    public void setAnoNacimiento(int anoNacimiento) {
+        this.anoNacimiento = anoNacimiento;
     }
 }

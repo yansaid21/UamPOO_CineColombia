@@ -46,7 +46,7 @@ public class ControladorPelicula {
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
         PeliculaActual.setNombre(infoPelicula.getNombre());
-        PeliculaActual.setAño(infoPelicula.getAño());
+        PeliculaActual.setAno(infoPelicula.getAno());
         PeliculaActual.setTipo(infoPelicula.getTipo());
         return this.miRepositorioPelicula.save(PeliculaActual);
     }

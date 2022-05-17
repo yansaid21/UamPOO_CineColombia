@@ -10,12 +10,12 @@ public class Pelicula {
     @Id
     String _id;
     String nombre;
-    int año;
+    int ano;
     String tipo;
 
-    public Pelicula(String nombre, int año, String tipo) {
+    public Pelicula(String nombre, int ano, String tipo) {
         this.nombre = nombre;
-        this.año = año;
+        this.ano = ano;
         this.tipo = tipo;
     }
 
@@ -31,12 +31,12 @@ public class Pelicula {
         this.nombre = nombre;
     }
 
-    public int getAño() {
-        return año;
+    public int getAno() {
+        return ano;
     }
 
-    public void setAño(int año) {
-        this.año = año;
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 
     public String getTipo() {

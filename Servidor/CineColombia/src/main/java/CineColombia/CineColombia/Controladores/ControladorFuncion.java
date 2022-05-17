@@ -65,7 +65,7 @@ public class ControladorFuncion {
         Funcion FuncionActual=this.miRepositorioFuncion
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
-        FuncionActual.setAño(infoFuncion.getAño());
+        FuncionActual.setAno(infoFuncion.getAno());
         FuncionActual.setDia(infoFuncion.getDia());
         FuncionActual.setHora(infoFuncion.getHora());
         FuncionActual.setMes(infoFuncion.getMes());
@@ -76,7 +76,7 @@ public class ControladorFuncion {
         Funcion FuncionActual=this.miRepositorioFuncion
                 .findById(id)
                 .orElseThrow(RuntimeException::new);
-        FuncionActual.setAño(infoFuncion.getAño());
+        FuncionActual.setAno(infoFuncion.getAno());
         FuncionActual.setDia(infoFuncion.getDia());
         FuncionActual.setHora(infoFuncion.getHora());
         FuncionActual.setMes(infoFuncion.getMes());

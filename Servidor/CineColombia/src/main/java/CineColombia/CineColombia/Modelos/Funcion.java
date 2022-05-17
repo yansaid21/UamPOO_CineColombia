@@ -13,7 +13,7 @@ public class Funcion {
     int hora;
     int dia;
     int mes;
-    int año;
+    int ano;
     @DBRef
     Sala sala;
     @DBRef
@@ -35,11 +35,11 @@ public class Funcion {
         this.pelicula = pelicula;
     }
 
-    public Funcion(int hora, int dia, int mes, int año) {
+    public Funcion(int hora, int dia, int mes, int ano) {
         this.hora = hora;
         this.dia = dia;
         this.mes = mes;
-        this.año = año;
+        this.ano = ano;
     }
 
     public int getHora() {
@@ -66,12 +66,12 @@ public class Funcion {
         this.mes = mes;
     }
 
-    public int getAño() {
-        return año;
+    public int getAno() {
+        return ano;
     }
 
-    public void setAño(int año) {
-        this.año = año;
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 
     public String get_id() {

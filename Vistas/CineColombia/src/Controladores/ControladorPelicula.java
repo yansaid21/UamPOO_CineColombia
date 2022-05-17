@@ -43,6 +43,7 @@ public class ControladorPelicula {
         Pelicula respuesta = new Pelicula();
         try {
             String resultado = this.miServicio.POST(this.subUrl, nuevaPelicula.toJson());
+            System.out.println("resultadoooo"+ resultado);
             respuesta = armar(resultado);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
