@@ -40,6 +40,11 @@ public class ControladorSilla {
                 .orElseThrow(RuntimeException::new);
         return SillaActual;
     }
+    @GetMapping("sala/{id_sala}")
+    public List<Silla> getSillasSala(@PathVariable String id_sala){
+        System.out.println("id "+ id_sala);
+        return this.miRepositorioSilla.getSillasEnSala(id_sala);
+    }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id){

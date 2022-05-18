@@ -14,6 +14,7 @@ import Controladores.ControladorUsuario;
 import Modelos.Funcion;
 import Modelos.Pelicula;
 import Modelos.Sala;
+import Modelos.Silla;
 import Modelos.Usuario;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -33,6 +34,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
     ControladorSilla miControladorSilla;
     ControladorUsuario miControladorUsuario;
     String urlServidor="http://127.0.0.1:8080";
+    Funcion comboBoleta;
     /**
      * Creates new form IntefarzCliente
      */
@@ -45,7 +47,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
         this.miControladorFuncion = new ControladorFuncion(urlServidor, "/funciones");
         this.miControladorUsuario= new ControladorUsuario(urlServidor,"/usuarios");
         this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
-        crearSalasFunciones();
+        this.miControladorSilla=new ControladorSilla(urlServidor, "/sillas");
+        boxTipoFuncion();
+        boxTipoSilla();
         actualizarTablaPeliculas();
         actualizarTablaUsuarios();
     }
@@ -85,17 +89,15 @@ public class IntefarzCliente extends javax.swing.JFrame {
         this.boxTipoBoleto.addItem("Adulto");
     }
     
-    public void crearSalasFunciones(){
+    public void boxTipoFuncion(){
         this.boxFuncionBoleta.removeAllItems();
         LinkedList <Funcion> funciones= this.miControladorFuncion.listar();
         
-        for(Funcion funcionActual:funciones){
-          
-//            funcionActual= this.miControladorFuncion.crear(funcionActual, funcionActual.getMiSala(), funcionActual.getMiPelicula());
+        for(Funcion funcionActual:funciones){      
             String nombreSala=funcionActual.getMiSala().getNombre();
             String nombrePelicula= funcionActual.getMiPelicula().getNombre();
-            String laFecha=""+funcionActual.getDia()+funcionActual.getMes()+funcionActual.getAno();
-            this.boxFuncionBoleta.addItem(nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+funcionActual.getDia()+laFecha);
+            String laFecha=""+funcionActual.getDia()+"-"+funcionActual.getMes()+"-"+funcionActual.getAno();
+            this.boxFuncionBoleta.addItem(nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+laFecha);
         }
 //        Sala sala1= new Sala("sala1", true);
 //        Sala sala2= new Sala("sala2", false);
@@ -127,6 +129,15 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
 //        this.boxFuncionBoleta.addItem(funcion1.getMiSala().getNombre());
 //        this.boxFuncionBoleta.addItem(funcion2.getMiSala().getNombre());
+    }
+    public void boxTipoSilla(){
+        this.boxSillaBoleto.removeAllItems();
+        System.out.println("selected item "+ this.boxFuncionBoleta.getSelectedItem());
+//        Funcion funcionAux= ((Funcion)this.boxFuncionBoleta.getSelectedItem());
+//        LinkedList <Silla> sillas= this.miControladorSilla.listarPorSala(funcionAux.getId());
+//        for(Silla sillaActual: sillas){
+//            this.boxSillaBoleto.addItem(sillaActual.getLetra()+" "+ sillaActual.getNumero());
+//        }
     }
     
     /**

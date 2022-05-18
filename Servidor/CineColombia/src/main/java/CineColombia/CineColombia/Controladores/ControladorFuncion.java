@@ -25,7 +25,7 @@ public class ControladorFuncion {
 
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("sala/{id_sala}/pelicula/{id_pelicula}")
+    @PostMapping("/sala/{id_sala}/pelicula/{id_pelicula}")
     public Funcion create(@RequestBody Funcion infoFuncion,
                             @PathVariable String id_sala,
                             @PathVariable String id_pelicula){
