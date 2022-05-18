@@ -11,6 +11,7 @@ import Controladores.ControladorPelicula;
 import Controladores.ControladorSala;
 import Controladores.ControladorSilla;
 import Controladores.ControladorUsuario;
+import Modelos.Boleto;
 import Modelos.Funcion;
 import Modelos.Pelicula;
 import Modelos.Sala;
@@ -37,6 +38,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
     String urlServidor="http://127.0.0.1:8080";
     LinkedList <Funcion> misFunciones;
     int indexFuciones;
+    LinkedList <Silla> misSillas;
     /**
      * Creates new form IntefarzCliente
      */
@@ -142,10 +144,10 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.boxSillaBoleto.removeAllItems();
             Sala SalaAux=funcionAux.getMiSala();
             System.out.println("nombre sala "+SalaAux.getNombre());
-                    LinkedList <Silla> sillas= new LinkedList<>();
-                    sillas=this.miControladorSilla.listarPorSala(SalaAux.getId());
-        for(Silla sillaActual: sillas){
+                    this.misSillas=this.miControladorSilla.listarPorSala(SalaAux.getId());
+        for(Silla sillaActual: misSillas){
             this.boxSillaBoleto.addItem(sillaActual.getLetra()+" "+ sillaActual.getNumero());
+            
         }
         
 
@@ -752,8 +754,23 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
     private void btnCrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearBoletoActionPerformed
         // TODO add your handling code here:
-        String valor=txtValorBoleto.getText();
+        String stringValor=txtValorBoleto.getText();
         String tipo=""+this.boxTipoBoleto.getSelectedItem();
+        Usuario usuarioaux=this.miControladorUsuario.buscarPorCedula(txtCedulaUsuarioBoleto.getText());
+        double valor= Double.parseDouble(stringValor);
+        if(usuarioaux==null){
+            JOptionPane.showMessageDialog(this, "Usuario no encotrado");
+        }else{
+            System.out.println("encontrado con exito");
+        }
+        Silla miSilla=this.misSillas.get(this.boxSillaBoleto.getSelectedIndex());
+       
+        Boleto NuevoBoleto= new Boleto(valor, tipo);
+        NuevoBoleto.s
+        NuevoBoleto.setMiSilla(miSilla);
+        NuevoBoleto=this.miControladorBoleto.crear(NuevoBoleto);
+        this.txtIdBoleto.setText(NuevoBoleto.getId());
+        Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
         
     }//GEN-LAST:event_btnCrearBoletoActionPerformed
 
@@ -761,7 +778,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nombre = this.txtNombrePelicula.getText();
         int ano = Integer.parseInt(this.txtAñoPelicula.getText());
-        String tipo = this.txtTipoPelicula.getText();
+        String tipo = this.txtTipoPelicula.getText();   
+        
 
         Pelicula nuevaPelicula = new Pelicula(nombre, ano, tipo);
         nuevaPelicula = this.miControladorPelicula.crear(nuevaPelicula);
@@ -773,6 +791,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.txtIdPelicula.setText(nuevaPelicula.getId());
             actualizarTablaPeliculas();
         }
+        
     }//GEN-LAST:event_btnCrearPeliculaActionPerformed
 
     private void btnBuscarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPeliculaActionPerformed
