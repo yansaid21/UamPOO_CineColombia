@@ -42,11 +42,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
         this.miControladorSala=new ControladorSala(urlServidor, "/salas");
         this.miControladorPelicula= new ControladorPelicula(urlServidor, "/peliculas");
-<<<<<<< HEAD
         this.miControladorFuncion = new ControladorFuncion(urlServidor, "/funciones");
-=======
         this.miControladorUsuario= new ControladorUsuario(urlServidor,"/usuarios");
->>>>>>> d839b1c4165103d58951ac42145e34432927c724
         this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
         crearSalasFunciones();
         actualizarTablaPeliculas();
@@ -91,8 +88,10 @@ public class IntefarzCliente extends javax.swing.JFrame {
     public void crearSalasFunciones(){
         this.boxFuncionBoleta.removeAllItems();
         LinkedList <Funcion> funciones= this.miControladorFuncion.listar();
+        
         for(Funcion funcionActual:funciones){
-            funcionActual= this.miControladorFuncion.crear(funcionActual, funcionActual.getMiSala(), funcionActual.getMiPelicula());
+          
+//            funcionActual= this.miControladorFuncion.crear(funcionActual, funcionActual.getMiSala(), funcionActual.getMiPelicula());
             String nombreSala=funcionActual.getMiSala().getNombre();
             String nombrePelicula= funcionActual.getMiPelicula().getNombre();
             String laFecha=""+funcionActual.getDia()+funcionActual.getMes()+funcionActual.getAno();

@@ -22,18 +22,22 @@ import org.json.simple.parser.JSONParser;
 public class ControladorFuncion {
     Servicio miServicio;
     String subUrl;
+    ControladorSala miControladorSala;
+    ControladorPelicula miControladorPelicula;
 
     public ControladorFuncion(String server, String subUrl) {
         this.miServicio = new Servicio(server) ;
         this.subUrl = subUrl;
+        this.miControladorSala=new ControladorSala(server, "/salas");
+        this.miControladorPelicula=new ControladorPelicula(server, "/peliculas");
     }
     
-    public Funcion procesarJson(String jsonString,Sala miSala,Pelicula miPelicula) {
+    public Funcion procesarJson(String jsonString) {
         Funcion nuevaFuncion = new Funcion();
         try {
             JSONParser parser = new JSONParser();
             JSONObject funcionJson = (JSONObject) parser.parse(jsonString);
-            nuevaFuncion= armar(funcionJson, miSala, miPelicula);
+            nuevaFuncion= armar(funcionJson);
             
         } catch (Exception e) {
             System.out.println(e);
@@ -49,13 +53,13 @@ public class ControladorFuncion {
             String endPoint = this.subUrl;
             String resultado = this.miServicio.GET(endPoint);
             JSONParser parser = new JSONParser();
-            JSONArray estudiantesJSON = (JSONArray) parser.parse(resultado);
-            for (Object actual : estudiantesJSON) {
-                JSONObject estudianteJSON= (JSONObject) actual;
+            JSONArray funcionesJSON = (JSONArray) parser.parse(resultado);
+            for (Object actual : funcionesJSON) {
+                JSONObject funcionJSON= (JSONObject) actual;
                 Funcion nuevaFuncion=new Funcion();
                 Sala salaFuncion= nuevaFuncion.getMiSala();
                 Pelicula peliculaFuncion=nuevaFuncion.getMiPelicula();
-                nuevaFuncion=armar(estudianteJSON, salaFuncion,peliculaFuncion);
+                nuevaFuncion=armar(funcionJSON);
                 respuesta.add(nuevaFuncion);
             }
         } catch (Exception e) {
@@ -64,7 +68,7 @@ public class ControladorFuncion {
         }
         return respuesta;
     }
-    public Funcion armar(JSONObject funcionJson,Sala miSala,Pelicula miPelicula){
+    public Funcion armar(JSONObject funcionJson){
         Funcion nuevaFuncion = new Funcion();
         try {
             nuevaFuncion.setId((String)funcionJson.get("_id"));
@@ -72,10 +76,17 @@ public class ControladorFuncion {
             nuevaFuncion.setDia(((Long)funcionJson.get("dia")).intValue());
             nuevaFuncion.setAno(((Long)funcionJson.get("ano")).intValue());
             nuevaFuncion.setMes(((Long)funcionJson.get("mes")).intValue());
-            nuevaFuncion.setMiSala(miSala);
-            nuevaFuncion.setMiPelicula(miPelicula);
+            JSONObject salaJson=(JSONObject)funcionJson.get("sala");
+            Sala laSala=this.miControladorSala.armar(salaJson);
+            System.out.println("el nombre sala "+ laSala.getNombre());
+            nuevaFuncion.setMiSala(laSala);
+            JSONObject peliculaJson=(JSONObject)funcionJson.get("pelicula");
+            Pelicula laPelicula=this.miControladorPelicula.armar(peliculaJson);
+            System.out.println("el nombre pelicula "+ laPelicula.getNombre());
+            nuevaFuncion.setMiPelicula(laPelicula);
+           
         } catch (Exception e) {
-            System.out.println("e");
+            System.out.println("Error al crear la funcion "+ e);
             nuevaFuncion = null;
         }
         return nuevaFuncion;
@@ -85,9 +96,16 @@ public class ControladorFuncion {
         Funcion respuesta = new Funcion();
         try {
             String resultado = this.miServicio.POST(this.subUrl, nuevaFuncion.toJson());
-            respuesta = procesarJson(resultado,miSala,miPelicula);
+            respuesta = procesarJson(resultado);
+            if(respuesta.getMiPelicula()== null ){
+                respuesta.setMiPelicula(miPelicula);
+            }
+            if(respuesta.getMiSala()== null ){
+            respuesta.setMiSala(miSala);    
+            }
+            
         } catch (Exception e) {
-            System.out.println("ERROR "+e);
+            System.out.println("ERROR en la funcion crear especificamente "+e);
             respuesta=null;
         }
         return respuesta;
