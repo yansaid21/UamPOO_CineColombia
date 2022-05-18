@@ -43,7 +43,9 @@ public class ControladorSilla {
     @GetMapping("sala/{id_sala}")
     public List<Silla> getSillasSala(@PathVariable String id_sala){
         System.out.println("id "+ id_sala);
+        System.out.println(this.miRepositorioSilla.getSillasEnSala(id_sala));
         return this.miRepositorioSilla.getSillasEnSala(id_sala);
+
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")

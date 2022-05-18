@@ -16,6 +16,7 @@ import Modelos.Pelicula;
 import Modelos.Sala;
 import Modelos.Silla;
 import Modelos.Usuario;
+import java.awt.event.ItemEvent;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +35,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
     ControladorSilla miControladorSilla;
     ControladorUsuario miControladorUsuario;
     String urlServidor="http://127.0.0.1:8080";
-    Funcion comboBoleta;
+    LinkedList <Funcion> misFunciones;
+    int indexFuciones;
     /**
      * Creates new form IntefarzCliente
      */
@@ -48,8 +50,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
         this.miControladorUsuario= new ControladorUsuario(urlServidor,"/usuarios");
         this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
         this.miControladorSilla=new ControladorSilla(urlServidor, "/sillas");
+        this.boxSillaBoleto.removeAllItems();
         boxTipoFuncion();
-        boxTipoSilla();
         actualizarTablaPeliculas();
         actualizarTablaUsuarios();
     }
@@ -91,13 +93,15 @@ public class IntefarzCliente extends javax.swing.JFrame {
     
     public void boxTipoFuncion(){
         this.boxFuncionBoleta.removeAllItems();
-        LinkedList <Funcion> funciones= this.miControladorFuncion.listar();
+        this.boxFuncionBoleta.addItem("elige uno...");
+        this.misFunciones= this.miControladorFuncion.listar();
         
-        for(Funcion funcionActual:funciones){      
+        for(Funcion funcionActual:this.misFunciones){      
             String nombreSala=funcionActual.getMiSala().getNombre();
             String nombrePelicula= funcionActual.getMiPelicula().getNombre();
             String laFecha=""+funcionActual.getDia()+"-"+funcionActual.getMes()+"-"+funcionActual.getAno();
             this.boxFuncionBoleta.addItem(nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+laFecha);
+            
         }
 //        Sala sala1= new Sala("sala1", true);
 //        Sala sala2= new Sala("sala2", false);
@@ -132,12 +136,20 @@ public class IntefarzCliente extends javax.swing.JFrame {
     }
     public void boxTipoSilla(){
         this.boxSillaBoleto.removeAllItems();
+        
         System.out.println("selected item "+ this.boxFuncionBoleta.getSelectedItem());
-//        Funcion funcionAux= ((Funcion)this.boxFuncionBoleta.getSelectedItem());
-//        LinkedList <Silla> sillas= this.miControladorSilla.listarPorSala(funcionAux.getId());
-//        for(Silla sillaActual: sillas){
-//            this.boxSillaBoleto.addItem(sillaActual.getLetra()+" "+ sillaActual.getNumero());
-//        }
+        Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
+            this.boxSillaBoleto.removeAllItems();
+            Sala SalaAux=funcionAux.getMiSala();
+            System.out.println("nombre sala "+SalaAux.getNombre());
+                    LinkedList <Silla> sillas= new LinkedList<>();
+                    sillas=this.miControladorSilla.listarPorSala(SalaAux.getId());
+        for(Silla sillaActual: sillas){
+            this.boxSillaBoleto.addItem(sillaActual.getLetra()+" "+ sillaActual.getNumero());
+        }
+        
+
+        
     }
     
     /**
@@ -250,6 +262,11 @@ public class IntefarzCliente extends javax.swing.JFrame {
         });
 
         boxFuncionBoleta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        boxFuncionBoleta.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                boxFuncionBoletaItemStateChanged(evt);
+            }
+        });
 
         boxTipoBoleto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -874,6 +891,17 @@ public class IntefarzCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Eliminación sin éxito "+ e);
         }
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
+
+    private void boxFuncionBoletaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxFuncionBoletaItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getStateChange()==ItemEvent.SELECTED){
+            if(!this.boxFuncionBoleta.getSelectedItem().equals("elige uno...")){
+                this.indexFuciones=this.boxFuncionBoleta.getSelectedIndex();
+                        boxTipoSilla();
+
+            }
+        }
+    }//GEN-LAST:event_boxFuncionBoletaItemStateChanged
 
     /**
      * @param args the command line arguments

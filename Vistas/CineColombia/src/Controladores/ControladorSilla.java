@@ -118,7 +118,7 @@ public class ControladorSilla {
     public LinkedList<Silla> listarPorSala(String idSala) {
         LinkedList<Silla> respuesta = new LinkedList<>();
         try {
-            String endPoint = this.subUrl+"/sala/"+ idSala;
+            String endPoint = this.subUrl+"/sala/"+idSala;
             String resultado = this.miServicio.GET(endPoint);
             JSONParser parser = new JSONParser();
             JSONArray SillasJSON = (JSONArray) parser.parse(resultado);

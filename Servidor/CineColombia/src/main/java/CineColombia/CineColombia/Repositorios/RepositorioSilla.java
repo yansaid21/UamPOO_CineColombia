@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface RepositorioSilla extends MongoRepository<Silla,String> {
-    @Query("{'Sala.$id': ObjectId(?0)}")
-    List<Silla> getSillasEnSala(String idSala);
+        @Query("{'sala.$id': ObjectId(?0)}")
+        List<Silla> getSillasEnSala(String idSala);
+
 }
