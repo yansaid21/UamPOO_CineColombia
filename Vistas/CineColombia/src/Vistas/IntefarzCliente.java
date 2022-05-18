@@ -14,6 +14,7 @@ import Controladores.ControladorUsuario;
 import Modelos.Funcion;
 import Modelos.Pelicula;
 import Modelos.Sala;
+import Modelos.Usuario;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,10 +42,11 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
         this.miControladorSala=new ControladorSala(urlServidor, "/salas");
         this.miControladorPelicula= new ControladorPelicula(urlServidor, "/peliculas");
-        
+        this.miControladorUsuario= new ControladorUsuario(urlServidor,"/usuarios");
         this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
         crearSalasFunciones();
         actualizarTablaPeliculas();
+        actualizarTablaUsuarios();
     }
 
     public void actualizarTablaPeliculas(){
@@ -57,6 +59,21 @@ public class IntefarzCliente extends javax.swing.JFrame {
             fila[0] = actual.getNombre();
             fila[1] = ""+actual.getAno();
             fila[2] = actual.getTipo();          
+            miModelo.addRow(fila);
+        }
+    }
+    
+    public void actualizarTablaUsuarios(){
+        String nombresColumnas[] = {"Cedula", "Nombre", "Email", "Año Nacimiento"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, nombresColumnas);
+        this.tbUsuarios.setModel(miModelo);
+        LinkedList<Usuario> usuarios=this.miControladorUsuario.listar();
+        for (Usuario actual:usuarios) {
+            String fila[] = new String[nombresColumnas.length];
+            fila[0] = actual.getCedula();
+            fila[1] = actual.getNombre();
+            fila[2] = actual.getEmail();
+            fila[3] = ""+actual.getAnoNacimiento();
             miModelo.addRow(fila);
         }
     }
@@ -163,8 +180,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
         btnBuscarUsuario = new javax.swing.JButton();
         btnEditarUsuario = new javax.swing.JButton();
         btnEliminarUsuario = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbUsuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
@@ -521,29 +538,49 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
         btnCrearUsuario.setBackground(new java.awt.Color(51, 255, 51));
         btnCrearUsuario.setText("Crear");
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         btnBuscarUsuario.setBackground(new java.awt.Color(51, 255, 51));
         btnBuscarUsuario.setText("Buscar");
+        btnBuscarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarUsuarioActionPerformed(evt);
+            }
+        });
 
         btnEditarUsuario.setBackground(new java.awt.Color(51, 255, 51));
         btnEditarUsuario.setText("Editar");
+        btnEditarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarUsuarioActionPerformed(evt);
+            }
+        });
 
         btnEliminarUsuario.setBackground(new java.awt.Color(51, 255, 51));
         btnEliminarUsuario.setText("Eliminar");
+        btnEliminarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarUsuarioActionPerformed(evt);
+            }
+        });
 
-        jTable1.setBackground(new java.awt.Color(204, 255, 204));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbUsuarios.setBackground(new java.awt.Color(204, 255, 204));
+        tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbUsuarios);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -575,11 +612,11 @@ public class IntefarzCliente extends javax.swing.JFrame {
                         .addComponent(btnEditarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminarUsuario)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(296, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 22, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -610,9 +647,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
                     .addComponent(btnBuscarUsuario)
                     .addComponent(btnEditarUsuario)
                     .addComponent(btnEliminarUsuario))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Usuarios", jPanel3);
@@ -743,6 +780,80 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnEliminarPeliculaActionPerformed
 
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        // TODO add your handling code here:
+        String cedula = this.txtCedulaUsuario.getText();
+        String nombre = this.txtNombreUsuario.getText();
+        String email = this.txtEmailUsuario.getText();
+        int anoNacimiento = Integer.parseInt(this.txtAñoNacimientoUsuario.getText());
+        
+        Usuario nuevoUsuario = new Usuario(cedula, nombre, email, anoNacimiento);
+        nuevoUsuario = this.miControladorUsuario.crear(nuevoUsuario);
+        
+        if (nuevoUsuario == null) {
+            JOptionPane.showMessageDialog(null, "Problemas al crear el usuario");
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario creado exitosamente con id " + nuevoUsuario.getId());
+            this.txtIdUsuario.setText(nuevoUsuario.getId());
+            actualizarTablaUsuarios();
+        }
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void btnBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarUsuarioActionPerformed
+        // TODO add your handling code here:
+        String cedula = this.txtCedulaUsuario.getText();
+        Usuario encontrado = this.miControladorUsuario.buscarPorCedula(cedula);
+        if (encontrado != null) {
+            this.txtIdUsuario.setText(encontrado.getId());
+            this.txtCedulaUsuario.setText(encontrado.getCedula());
+            this.txtNombreUsuario.setText(encontrado.getNombre());
+            this.txtEmailUsuario.setText(encontrado.getEmail());
+            this.txtAñoNacimientoUsuario.setText(""+encontrado.getAnoNacimiento());
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el usuario");
+        }
+    }//GEN-LAST:event_btnBuscarUsuarioActionPerformed
+
+    private void btnEditarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsuarioActionPerformed
+        // TODO add your handling code here:
+        try {
+            String id = this.txtIdUsuario.getText();
+            String cedula = this.txtCedulaUsuario.getText();
+            String nombre = this.txtNombrePelicula.getText();
+            String email = this.txtEmailUsuario.getText();
+            int anoNacimiento = Integer.parseInt(this.txtAñoNacimientoUsuario.getText());
+
+            Usuario usuarioActualizado = new Usuario(cedula, nombre, email, anoNacimiento);
+            usuarioActualizado.setId(id);
+
+            Usuario actualizado = this.miControladorUsuario.actualizar(usuarioActualizado);
+
+            this.txtIdUsuario.setText(actualizado.getId());
+            this.txtCedulaUsuario.setText(actualizado.getCedula());
+            this.txtNombreUsuario.setText(actualizado.getNombre());
+            this.txtEmailUsuario.setText(actualizado.getEmail());
+            this.txtAñoNacimientoUsuario.setText(""+actualizado.getAnoNacimiento());
+            
+            actualizarTablaUsuarios();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el usuario "+ e);
+        }
+    }//GEN-LAST:event_btnEditarUsuarioActionPerformed
+
+    private void btnEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuarioActionPerformed
+        // TODO add your handling code here:
+        try {
+            String id =this.txtIdUsuario.getText();
+            this.miControladorUsuario.eliminar(id);
+            
+            JOptionPane.showMessageDialog(null, "Eliminación exitosa");
+            actualizarTablaUsuarios();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Eliminación sin éxito "+ e);
+        }
+    }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -814,13 +925,13 @@ public class IntefarzCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable tbBoletos;
     private javax.swing.JTable tbPelicula;
+    private javax.swing.JTable tbUsuarios;
     private javax.swing.JTextField txtAñoNacimientoUsuario;
     private javax.swing.JTextField txtAñoPelicula;
     private javax.swing.JTextField txtCedulaUsuario;

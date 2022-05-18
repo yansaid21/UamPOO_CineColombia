@@ -5,6 +5,8 @@
  */
 package Modelos;
 
+import org.json.simple.JSONObject;
+
 /**
  *
  * @author Geraldine Romero
@@ -26,6 +28,15 @@ public class Usuario {
         this.nombre = nombre;
         this.email = email;
         this.anoNacimiento = anoNacimiento;
+    }
+    
+    public JSONObject toJson() {
+        JSONObject respuesta = new JSONObject();
+        respuesta.put("cedula", this.getCedula());
+        respuesta.put("nombre", this.getNombre());
+        respuesta.put("email", this.getEmail());
+        respuesta.put("anoNacimiento", this.getAnoNacimiento());
+        return respuesta;
     }
 
     public String getId() {
