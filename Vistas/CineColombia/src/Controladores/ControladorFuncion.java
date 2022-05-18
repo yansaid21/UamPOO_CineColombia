@@ -32,13 +32,14 @@ public class ControladorFuncion {
             JSONParser parser = new JSONParser();
             JSONObject funcionJson= (JSONObject) parser.parse(jsonString);
             nuevaFuncion.setId((String)funcionJson.get("_id"));
-            nuevaFuncion.setHora((Integer)funcionJson.get("hora"));
-            nuevaFuncion.setDia((Integer)funcionJson.get("dia"));
+            nuevaFuncion.setHora(((Long)funcionJson.get("hora")).intValue());
+            nuevaFuncion.setDia(((Long)funcionJson.get("dia")).intValue());
             nuevaFuncion.setAno(((Long)funcionJson.get("ano")).intValue());
-            nuevaFuncion.setMes((Integer)funcionJson.get("mes"));
+            nuevaFuncion.setMes(((Long)funcionJson.get("mes")).intValue());
             nuevaFuncion.setMiSala(miSala);
             nuevaFuncion.setMiPelicula(miPelicula);
         } catch (Exception e) {
+            System.out.println(e);
             nuevaFuncion = null;
         }
         return nuevaFuncion;
