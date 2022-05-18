@@ -14,11 +14,11 @@ public class Usuario {
     String email;
     int anoNacimiento;
 
-    public Usuario(String cedula, String nombre, String email, int anoNaciemto) {
+    public Usuario(String cedula, String nombre, String email, int anoNacimiento) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.email = email;
-        this.anoNacimiento = anoNaciemto;
+        this.anoNacimiento = anoNacimiento;
     }
 
     public String get_id() {
