@@ -14,9 +14,11 @@ import Controladores.ControladorUsuario;
 import Modelos.Funcion;
 import Modelos.Pelicula;
 import Modelos.Sala;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -42,8 +44,23 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
         this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
         crearSalasFunciones();
+        actualizarTablaPeliculas();
     }
 
+    public void actualizarTablaPeliculas(){
+        String nombresColumnas[] = {"Nombre", "Año", "Tipo"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, nombresColumnas);
+        this.tbPelicula.setModel(miModelo);
+        LinkedList<Pelicula> estudiantes=this.miControladorPelicula.listar();
+        for (Pelicula actual:estudiantes) {
+            String fila[] = new String[nombresColumnas.length];
+            fila[0] = actual.getNombre();
+            fila[1] = ""+actual.getAno();
+            fila[2] = actual.getTipo();          
+            miModelo.addRow(fila);
+        }
+    }
+    
     public void boxTipoBoleto(){
         this.boxTipoBoleto.removeAllItems();
         this.boxTipoBoleto.addItem("Nino");
@@ -113,8 +130,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
         btnBuscarBoleto = new javax.swing.JButton();
         btnEditarBoleto = new javax.swing.JButton();
         btnEliminarBoleto = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbBoleto = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tbBoletos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -217,21 +234,19 @@ public class IntefarzCliente extends javax.swing.JFrame {
         btnEliminarBoleto.setBackground(new java.awt.Color(153, 153, 255));
         btnEliminarBoleto.setText("Eliminar");
 
-        jScrollPane1.setBackground(new java.awt.Color(204, 204, 255));
-
-        tbBoleto.setBackground(new java.awt.Color(204, 204, 255));
-        tbBoleto.setModel(new javax.swing.table.DefaultTableModel(
+        tbBoletos.setBackground(new java.awt.Color(204, 204, 255));
+        tbBoletos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tbBoleto);
+        jScrollPane4.setViewportView(tbBoletos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -271,8 +286,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminarBoleto))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(32, 32, 32)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -312,9 +327,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
                     .addComponent(btnBuscarBoleto)
                     .addComponent(btnEditarBoleto)
                     .addComponent(btnEliminarBoleto))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Boletos", jPanel1);
@@ -337,15 +352,35 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
         btnCrearPelicula.setBackground(new java.awt.Color(255, 51, 51));
         btnCrearPelicula.setText("Crear");
+        btnCrearPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearPeliculaActionPerformed(evt);
+            }
+        });
 
         btnBuscarPelicula.setBackground(new java.awt.Color(255, 51, 51));
         btnBuscarPelicula.setText("Buscar");
+        btnBuscarPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarPeliculaActionPerformed(evt);
+            }
+        });
 
         btnEditarPelicula.setBackground(new java.awt.Color(255, 51, 51));
         btnEditarPelicula.setText("Editar");
+        btnEditarPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarPeliculaActionPerformed(evt);
+            }
+        });
 
         btnEliminarPelicula.setBackground(new java.awt.Color(255, 51, 51));
         btnEliminarPelicula.setText("Eliminar");
+        btnEliminarPelicula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarPeliculaActionPerformed(evt);
+            }
+        });
 
         tbPelicula.setBackground(new java.awt.Color(255, 204, 204));
         tbPelicula.setModel(new javax.swing.table.DefaultTableModel(
@@ -647,6 +682,67 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCrearBoletoActionPerformed
 
+    private void btnCrearPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPeliculaActionPerformed
+        // TODO add your handling code here:
+        String nombre = this.txtNombrePelicula.getText();
+        int ano = Integer.parseInt(this.txtAñoPelicula.getText());
+        String tipo = this.txtTipoPelicula.getText();
+
+        Pelicula nuevaPelicula = new Pelicula(nombre, ano, tipo);
+        nuevaPelicula = this.miControladorPelicula.crear(nuevaPelicula);
+        
+        if (nuevaPelicula == null) {
+            JOptionPane.showMessageDialog(null, "Problemas al crear la pelicula");
+        } else {
+            JOptionPane.showMessageDialog(null, "Pelicula creada exitosamente con id " + nuevaPelicula.getId());
+            this.txtIdPelicula.setText(nuevaPelicula.getId());
+            actualizarTablaPeliculas();
+        }
+    }//GEN-LAST:event_btnCrearPeliculaActionPerformed
+
+    private void btnBuscarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPeliculaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnBuscarPeliculaActionPerformed
+
+    private void btnEditarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeliculaActionPerformed
+        // TODO add your handling code here:
+        try {
+            String id = this.txtIdPelicula.getText();
+            String nombre = this.txtNombrePelicula.getText();
+            int ano = Integer.parseInt(this.txtAñoPelicula.getText());
+            String tipo = this.txtTipoPelicula.getText();
+
+            Pelicula peliculaActualizada = new Pelicula(nombre, ano, tipo);
+            peliculaActualizada.setId(id);
+
+            Pelicula actualizado = this.miControladorPelicula.actualizar(peliculaActualizada);
+
+            this.txtIdPelicula.setText(actualizado.getId());
+            this.txtNombrePelicula.setText(actualizado.getNombre());
+            this.txtAñoPelicula.setText(""+actualizado.getAno());
+            this.txtTipoPelicula.setText(actualizado.getTipo());
+            actualizarTablaPeliculas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar la pelicula "+ e);
+        }
+        
+    }//GEN-LAST:event_btnEditarPeliculaActionPerformed
+
+    private void btnEliminarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPeliculaActionPerformed
+        // TODO add your handling code here:
+        try {
+            String id =this.txtIdPelicula.getText();
+            this.miControladorPelicula.eliminar(id);
+            
+            JOptionPane.showMessageDialog(null, "Eliminación exitosa");
+            actualizarTablaPeliculas();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Eliminación sin éxito "+ e);
+        }
+        
+    }//GEN-LAST:event_btnEliminarPeliculaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -718,12 +814,12 @@ public class IntefarzCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable tbBoleto;
+    private javax.swing.JTable tbBoletos;
     private javax.swing.JTable tbPelicula;
     private javax.swing.JTextField txtAñoNacimientoUsuario;
     private javax.swing.JTextField txtAñoPelicula;
