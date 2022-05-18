@@ -34,7 +34,7 @@ public class ControladorFuncion {
             nuevaFuncion.setId((String)funcionJson.get("_id"));
             nuevaFuncion.setHora((Integer)funcionJson.get("hora"));
             nuevaFuncion.setDia((Integer)funcionJson.get("dia"));
-            nuevaFuncion.setAño((Integer)funcionJson.get("año"));
+            nuevaFuncion.setAno(((Long)funcionJson.get("ano")).intValue());
             nuevaFuncion.setMes((Integer)funcionJson.get("mes"));
             nuevaFuncion.setMiSala(miSala);
             nuevaFuncion.setMiPelicula(miPelicula);

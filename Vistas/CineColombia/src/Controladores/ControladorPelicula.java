@@ -32,7 +32,7 @@ public class ControladorPelicula {
             System.out.println(peliculaJson);
             nuevaPelicula.setId((String)peliculaJson.get("_id"));
             nuevaPelicula.setNombre((String)peliculaJson.get("nombre"));
-            nuevaPelicula.setAno((Integer)peliculaJson.get("ano"));
+            nuevaPelicula.setAno(((Long)peliculaJson.get("ano")).intValue());
             nuevaPelicula.setTipo((String)peliculaJson.get("tipo"));
         } catch (Exception e) {
             System.out.println(e);
