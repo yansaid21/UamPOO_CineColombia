@@ -23,16 +23,27 @@ public class ControladorSala {
         this.miServicio = new Servicio(server);
         this.subUrl = subUrl;
     }
-
-    public Sala armar(String jsonString){
+    public Sala procesarJson(String jsonString) {
         Sala nuevaSala = new Sala();
         try {
             JSONParser parser = new JSONParser();
-            JSONObject salaJson= (JSONObject) parser.parse(jsonString);
+            JSONObject SalaJson = (JSONObject) parser.parse(jsonString);
+            nuevaSala= armar(SalaJson);
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            nuevaSala = null;
+        }
+        return nuevaSala;
+    }
+    public Sala armar(JSONObject salaJson){
+        Sala nuevaSala = new Sala();
+        try {
             nuevaSala.setId((String)salaJson.get("_id"));
             nuevaSala.setNombre((String)salaJson.get("nombre"));
             nuevaSala.setEfectosEspeciales((boolean) salaJson.get("efectosEspeciales"));
         } catch (Exception e) {
+            System.out.println("Error al crear la sala "+e);
             nuevaSala = null;
         }
         return nuevaSala;
@@ -42,7 +53,7 @@ public class ControladorSala {
         Sala respuesta = new Sala();
         try {
             String resultado = this.miServicio.POST(this.subUrl, sala1.toJson());
-            respuesta = armar(resultado);
+            respuesta = procesarJson(resultado);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
             respuesta=null;

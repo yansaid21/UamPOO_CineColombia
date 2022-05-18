@@ -11,10 +11,13 @@ import Controladores.ControladorPelicula;
 import Controladores.ControladorSala;
 import Controladores.ControladorSilla;
 import Controladores.ControladorUsuario;
+import Modelos.Boleto;
 import Modelos.Funcion;
 import Modelos.Pelicula;
 import Modelos.Sala;
+import Modelos.Silla;
 import Modelos.Usuario;
+import java.awt.event.ItemEvent;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +36,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
     ControladorSilla miControladorSilla;
     ControladorUsuario miControladorUsuario;
     String urlServidor="http://127.0.0.1:8080";
+    LinkedList <Funcion> misFunciones;
+    int indexFuciones;
+    LinkedList <Silla> misSillas;
     /**
      * Creates new form IntefarzCliente
      */
@@ -42,9 +48,12 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
         this.miControladorSala=new ControladorSala(urlServidor, "/salas");
         this.miControladorPelicula= new ControladorPelicula(urlServidor, "/peliculas");
+        this.miControladorFuncion = new ControladorFuncion(urlServidor, "/funciones");
         this.miControladorUsuario= new ControladorUsuario(urlServidor,"/usuarios");
         this.miControladorBoleto=new ControladorBoleto(urlServidor, "/boletos");
-        crearSalasFunciones();
+        this.miControladorSilla=new ControladorSilla(urlServidor, "/sillas");
+        this.boxSillaBoleto.removeAllItems();
+        boxTipoFuncion();
         actualizarTablaPeliculas();
         actualizarTablaUsuarios();
     }
@@ -84,9 +93,18 @@ public class IntefarzCliente extends javax.swing.JFrame {
         this.boxTipoBoleto.addItem("Adulto");
     }
     
-    public void crearSalasFunciones(){
+    public void boxTipoFuncion(){
         this.boxFuncionBoleta.removeAllItems();
-//        for()
+        this.boxFuncionBoleta.addItem("elige uno...");
+        this.misFunciones= this.miControladorFuncion.listar();
+        
+        for(Funcion funcionActual:this.misFunciones){      
+            String nombreSala=funcionActual.getMiSala().getNombre();
+            String nombrePelicula= funcionActual.getMiPelicula().getNombre();
+            String laFecha=""+funcionActual.getDia()+"-"+funcionActual.getMes()+"-"+funcionActual.getAno();
+            this.boxFuncionBoleta.addItem(nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+laFecha);
+            
+        }
 //        Sala sala1= new Sala("sala1", true);
 //        Sala sala2= new Sala("sala2", false);
 //        
@@ -117,6 +135,23 @@ public class IntefarzCliente extends javax.swing.JFrame {
         
 //        this.boxFuncionBoleta.addItem(funcion1.getMiSala().getNombre());
 //        this.boxFuncionBoleta.addItem(funcion2.getMiSala().getNombre());
+    }
+    public void boxTipoSilla(){
+        this.boxSillaBoleto.removeAllItems();
+        
+        System.out.println("selected item "+ this.boxFuncionBoleta.getSelectedItem());
+        Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
+            this.boxSillaBoleto.removeAllItems();
+            Sala SalaAux=funcionAux.getMiSala();
+            System.out.println("nombre sala "+SalaAux.getNombre());
+                    this.misSillas=this.miControladorSilla.listarPorSala(SalaAux.getId());
+        for(Silla sillaActual: misSillas){
+            this.boxSillaBoleto.addItem(sillaActual.getLetra()+" "+ sillaActual.getNumero());
+            
+        }
+        
+
+        
     }
     
     /**
@@ -229,6 +264,11 @@ public class IntefarzCliente extends javax.swing.JFrame {
         });
 
         boxFuncionBoleta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        boxFuncionBoleta.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                boxFuncionBoletaItemStateChanged(evt);
+            }
+        });
 
         boxTipoBoleto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -714,8 +754,23 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
     private void btnCrearBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearBoletoActionPerformed
         // TODO add your handling code here:
-        String valor=txtValorBoleto.getText();
+        String stringValor=txtValorBoleto.getText();
         String tipo=""+this.boxTipoBoleto.getSelectedItem();
+        Usuario usuarioaux=this.miControladorUsuario.buscarPorCedula(txtCedulaUsuarioBoleto.getText());
+        double valor= Double.parseDouble(stringValor);
+        if(usuarioaux==null){
+            JOptionPane.showMessageDialog(this, "Usuario no encotrado");
+        }else{
+            System.out.println("encontrado con exito");
+        }
+        Silla miSilla=this.misSillas.get(this.boxSillaBoleto.getSelectedIndex());
+       
+        Boleto NuevoBoleto= new Boleto(valor, tipo);
+        NuevoBoleto.s
+        NuevoBoleto.setMiSilla(miSilla);
+        NuevoBoleto=this.miControladorBoleto.crear(NuevoBoleto);
+        this.txtIdBoleto.setText(NuevoBoleto.getId());
+        Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
         
     }//GEN-LAST:event_btnCrearBoletoActionPerformed
 
@@ -723,7 +778,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nombre = this.txtNombrePelicula.getText();
         int ano = Integer.parseInt(this.txtAñoPelicula.getText());
-        String tipo = this.txtTipoPelicula.getText();
+        String tipo = this.txtTipoPelicula.getText();   
+        
 
         Pelicula nuevaPelicula = new Pelicula(nombre, ano, tipo);
         nuevaPelicula = this.miControladorPelicula.crear(nuevaPelicula);
@@ -735,6 +791,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.txtIdPelicula.setText(nuevaPelicula.getId());
             actualizarTablaPeliculas();
         }
+        
     }//GEN-LAST:event_btnCrearPeliculaActionPerformed
 
     private void btnBuscarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPeliculaActionPerformed
@@ -853,6 +910,17 @@ public class IntefarzCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Eliminación sin éxito "+ e);
         }
     }//GEN-LAST:event_btnEliminarUsuarioActionPerformed
+
+    private void boxFuncionBoletaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxFuncionBoletaItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getStateChange()==ItemEvent.SELECTED){
+            if(!this.boxFuncionBoleta.getSelectedItem().equals("elige uno...")){
+                this.indexFuciones=this.boxFuncionBoleta.getSelectedIndex();
+                        boxTipoSilla();
+
+            }
+        }
+    }//GEN-LAST:event_boxFuncionBoletaItemStateChanged
 
     /**
      * @param args the command line arguments

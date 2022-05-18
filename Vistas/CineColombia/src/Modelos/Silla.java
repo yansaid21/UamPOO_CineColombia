@@ -5,6 +5,8 @@
  */
 package Modelos;
 
+import org.json.simple.JSONObject;
+
 /**
  *
  * @author Geraldine Romero
@@ -20,6 +22,13 @@ public class Silla {
     public Silla( String letra, int numero) {
         this.letra = letra;
         this.numero = numero;
+    }
+    public JSONObject toJson() {
+        JSONObject respuesta = new JSONObject();
+        respuesta.put("letra", this.getLetra());
+        respuesta.put("numero", this.getNumero());
+        
+        return respuesta;
     }
 
     public String getId() {
