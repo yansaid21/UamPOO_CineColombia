@@ -10,6 +10,8 @@ import Modelos.Funcion;
 import Modelos.Pelicula;
 import Modelos.Sala;
 import Servicios.Servicio;
+import java.util.LinkedList;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -26,11 +28,45 @@ public class ControladorFuncion {
         this.subUrl = subUrl;
     }
     
-    public Funcion armar(String jsonString,Sala miSala,Pelicula miPelicula){
+    public Funcion procesarJson(String jsonString,Sala miSala,Pelicula miPelicula) {
         Funcion nuevaFuncion = new Funcion();
         try {
             JSONParser parser = new JSONParser();
-            JSONObject funcionJson= (JSONObject) parser.parse(jsonString);
+            JSONObject funcionJson = (JSONObject) parser.parse(jsonString);
+            nuevaFuncion= armar(funcionJson, miSala, miPelicula);
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            nuevaFuncion = null;
+        }
+        return nuevaFuncion;
+    }
+
+
+    public LinkedList<Funcion> listar() {
+        LinkedList<Funcion> respuesta = new LinkedList<>();
+        try {
+            String endPoint = this.subUrl;
+            String resultado = this.miServicio.GET(endPoint);
+            JSONParser parser = new JSONParser();
+            JSONArray estudiantesJSON = (JSONArray) parser.parse(resultado);
+            for (Object actual : estudiantesJSON) {
+                JSONObject estudianteJSON= (JSONObject) actual;
+                Funcion nuevaFuncion=new Funcion();
+                Sala salaFuncion= nuevaFuncion.getMiSala();
+                Pelicula peliculaFuncion=nuevaFuncion.getMiPelicula();
+                nuevaFuncion=armar(estudianteJSON, salaFuncion,peliculaFuncion);
+                respuesta.add(nuevaFuncion);
+            }
+        } catch (Exception e) {
+            System.out.println("Error " + e);
+            respuesta = null;
+        }
+        return respuesta;
+    }
+    public Funcion armar(JSONObject funcionJson,Sala miSala,Pelicula miPelicula){
+        Funcion nuevaFuncion = new Funcion();
+        try {
             nuevaFuncion.setId((String)funcionJson.get("_id"));
             nuevaFuncion.setHora(((Long)funcionJson.get("hora")).intValue());
             nuevaFuncion.setDia(((Long)funcionJson.get("dia")).intValue());
@@ -39,7 +75,7 @@ public class ControladorFuncion {
             nuevaFuncion.setMiSala(miSala);
             nuevaFuncion.setMiPelicula(miPelicula);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("e");
             nuevaFuncion = null;
         }
         return nuevaFuncion;
@@ -49,7 +85,7 @@ public class ControladorFuncion {
         Funcion respuesta = new Funcion();
         try {
             String resultado = this.miServicio.POST(this.subUrl, nuevaFuncion.toJson());
-            respuesta = armar(resultado,miSala,miPelicula);
+            respuesta = procesarJson(resultado,miSala,miPelicula);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
             respuesta=null;
