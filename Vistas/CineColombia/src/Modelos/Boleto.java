@@ -17,6 +17,8 @@ public class Boleto {
     private String tipo;
 
     private Silla miSilla;
+    private Usuario miUsuario;
+    private Funcion miFuncion;
     
     public Boleto() {
     }
@@ -87,6 +89,34 @@ public class Boleto {
      */
     public void setMiSilla(Silla miSilla) {
         this.miSilla = miSilla;
+    }
+
+    /**
+     * @return the miUsuario
+     */
+    public Usuario getMiUsuario() {
+        return miUsuario;
+    }
+
+    /**
+     * @param miUsuario the miUsuario to set
+     */
+    public void setMiUsuario(Usuario miUsuario) {
+        this.miUsuario = miUsuario;
+    }
+
+    /**
+     * @return the miFuncion
+     */
+    public Funcion getMiFuncion() {
+        return miFuncion;
+    }
+
+    /**
+     * @param miFuncion the miFuncion to set
+     */
+    public void setMiFuncion(Funcion miFuncion) {
+        this.miFuncion = miFuncion;
     }
     
     

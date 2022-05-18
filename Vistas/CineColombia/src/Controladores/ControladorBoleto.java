@@ -6,6 +6,7 @@
 package Controladores;
 
 import Modelos.Boleto;
+import Modelos.Usuario;
 import Servicios.Servicio;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,17 +18,28 @@ import org.json.simple.parser.JSONParser;
 public class ControladorBoleto {
     Servicio miServicio;
     String subUrl;
+    ControladorUsuario miControladorUsuario;
+    ControladorFuncion miControladorFuncion;
 
     public ControladorBoleto(String server, String subUrl) {
         this.miServicio = new Servicio(server);
         this.subUrl = subUrl;
     }
-    
-    public Boleto armar(String jsonString){
+    public Boleto procesarJson(String jsonString) {
         Boleto nuevoBoleto = new Boleto();
         try {
             JSONParser parser = new JSONParser();
-            JSONObject boletoJson= (JSONObject) parser.parse(jsonString);
+            JSONObject boletoJSON = (JSONObject) parser.parse(jsonString);
+            nuevoBoleto=armar(boletoJSON);
+        } catch (Exception e) {
+            System.out.println("ERROR "+e);
+            nuevoBoleto = null;
+        }
+        return nuevoBoleto;
+    }
+    public Boleto armar(JSONObject boletoJson){
+        Boleto nuevoBoleto = new Boleto();
+        try {
             nuevoBoleto.setId((String)boletoJson.get("_id"));
             nuevoBoleto.setTipo((String)boletoJson.get("tipo"));
             nuevoBoleto.setValor((double) boletoJson.get("valor"));
@@ -41,11 +53,13 @@ public class ControladorBoleto {
         Boleto respuesta = new Boleto();
         try {
             String resultado = this.miServicio.POST(this.subUrl, nuevoBoleto.toJson());
-            respuesta = armar(resultado);
+            respuesta = procesarJson(resultado);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
             respuesta=null;
         }
+        respuesta.setMiFuncion(nuevoBoleto.getMiFuncion());
+        respuesta.setMiUsuario(nuevoBoleto.getMiUsuario());
         return respuesta;
     }
     
@@ -54,7 +68,7 @@ public class ControladorBoleto {
         try {
             String endPoint = this.subUrl+"/id/"+id;
             String resultado= this.miServicio.GET(endPoint);
-            respuesta=armar(resultado);
+            respuesta=procesarJson(resultado);
         } catch (Exception e){
             System.out.println("ERROR "+e);
             respuesta=null;
@@ -66,7 +80,7 @@ public class ControladorBoleto {
         Boleto respuesta = new Boleto();
         try {
             String resultado = this.miServicio.PUT(this.subUrl, nuevoBoleto.toJson());
-            respuesta = armar(resultado);
+            respuesta = procesarJson(resultado);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
             respuesta=null;

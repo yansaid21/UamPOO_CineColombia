@@ -19,6 +19,7 @@ public class Usuario {
     private String email;
     private int anoNacimiento;
     
+    private LinkedList <Boleto> misBoletos;
 
     public Usuario() {
     }
@@ -28,6 +29,7 @@ public class Usuario {
         this.nombre = nombre;
         this.email = email;
         this.anoNacimiento = anoNacimiento;
+        this.misBoletos = new LinkedList<>();
     }
     
     public JSONObject toJson() {
@@ -77,6 +79,20 @@ public class Usuario {
 
     public void setAnoNacimiento(int anoNacimiento) {
         this.anoNacimiento = anoNacimiento;
+    }
+
+    /**
+     * @return the misBoletos
+     */
+    public LinkedList <Boleto> getMisBoletos() {
+        return misBoletos;
+    }
+
+    /**
+     * @param misBoletos the misBoletos to set
+     */
+    public void setMisBoletos(LinkedList <Boleto> misBoletos) {
+        this.misBoletos = misBoletos;
     }
 
     

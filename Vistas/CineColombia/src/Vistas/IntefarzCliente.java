@@ -762,15 +762,19 @@ public class IntefarzCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Usuario no encotrado");
         }else{
             System.out.println("encontrado con exito");
-        }
-        Silla miSilla=this.misSillas.get(this.boxSillaBoleto.getSelectedIndex());
+            Silla miSilla=this.misSillas.get(this.boxSillaBoleto.getSelectedIndex());
        
-        Boleto NuevoBoleto= new Boleto(valor, tipo);
-        NuevoBoleto.s
-        NuevoBoleto.setMiSilla(miSilla);
-        NuevoBoleto=this.miControladorBoleto.crear(NuevoBoleto);
-        this.txtIdBoleto.setText(NuevoBoleto.getId());
-        Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
+            Boleto NuevoBoleto= new Boleto(valor, tipo);
+            Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
+
+            NuevoBoleto.setMiSilla(miSilla);
+            NuevoBoleto.setMiFuncion(funcionAux);
+            NuevoBoleto.setMiUsuario(usuarioaux);
+        
+            NuevoBoleto=this.miControladorBoleto.crear(NuevoBoleto);
+            this.txtIdBoleto.setText(NuevoBoleto.getId());
+        }
+        
         
     }//GEN-LAST:event_btnCrearBoletoActionPerformed
 
