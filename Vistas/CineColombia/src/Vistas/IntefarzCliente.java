@@ -46,7 +46,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
     public void boxTipoBoleto(){
         this.boxTipoBoleto.removeAllItems();
-        this.boxTipoBoleto.addItem("Niño");
+        this.boxTipoBoleto.addItem("Nino");
         this.boxTipoBoleto.addItem("Adulto");
     }
     

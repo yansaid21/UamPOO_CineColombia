@@ -29,11 +29,13 @@ public class ControladorPelicula {
         try {
             JSONParser parser = new JSONParser();
             JSONObject peliculaJson = (JSONObject) parser.parse(jsonString);
+            System.out.println(peliculaJson);
             nuevaPelicula.setId((String)peliculaJson.get("_id"));
             nuevaPelicula.setNombre((String)peliculaJson.get("nombre"));
             nuevaPelicula.setAno((Integer)peliculaJson.get("ano"));
             nuevaPelicula.setTipo((String)peliculaJson.get("tipo"));
         } catch (Exception e) {
+            System.out.println(e);
             nuevaPelicula = null;
         }
         return nuevaPelicula;
