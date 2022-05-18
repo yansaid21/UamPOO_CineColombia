@@ -5,6 +5,7 @@
  */
 package Modelos;
 
+import java.util.LinkedList;
 import org.json.simple.JSONObject;
 
 /**
@@ -18,7 +19,6 @@ public class Usuario {
     private String email;
     private int anoNacimiento;
     
-    private Boleto miBoleto;
 
     public Usuario() {
     }
@@ -79,19 +79,7 @@ public class Usuario {
         this.anoNacimiento = anoNacimiento;
     }
 
-    /**
-     * @return the miBoleto
-     */
-    public Boleto getMiBoleto() {
-        return miBoleto;
-    }
-
-    /**
-     * @param miBoleto the miBoleto to set
-     */
-    public void setMiBoleto(Boleto miBoleto) {
-        this.miBoleto = miBoleto;
-    }
+    
     
     
 }
