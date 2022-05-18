@@ -26,11 +26,11 @@ public class Funcion {
     public Funcion() {
     }
 
-    public Funcion( int hora, int dia, int mes, int año) {
+    public Funcion( int hora, int dia, int mes, int ano) {
         this.hora = hora;
         this.dia = dia;
         this.mes = mes;
-        this.ano = año;
+        this.ano = ano;
         this.misBoletos = new LinkedList<>();
     }
     
@@ -39,7 +39,7 @@ public class Funcion {
         respuesta.put("hora", this.getHora());
         respuesta.put("dia", this.getDia());
         respuesta.put("mes", this.getMes());
-        respuesta.put("año", this.getAño());
+        respuesta.put("ano", this.getAno());
         return respuesta;
     }
 
@@ -59,7 +59,7 @@ public class Funcion {
         return mes;
     }
 
-    public int getAño() {
+    public int getAno() {
         return ano;
     }
 
@@ -79,8 +79,8 @@ public class Funcion {
         this.mes = mes;
     }
 
-    public void setAño(int año) {
-        this.ano = año;
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 
     /**

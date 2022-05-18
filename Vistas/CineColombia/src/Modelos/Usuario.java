@@ -14,18 +14,18 @@ public class Usuario {
     private String cedula;
     private String nombre;
     private String email;
-    private int añoNacimiento;
+    private int anoNacimiento;
     
     private Boleto miBoleto;
 
     public Usuario() {
     }
 
-    public Usuario( String cedula, String nombre, String email, int añoNacimiento) {
+    public Usuario( String cedula, String nombre, String email, int anoNacimiento) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.email = email;
-        this.añoNacimiento = añoNacimiento;
+        this.anoNacimiento = anoNacimiento;
     }
 
     public String getId() {
@@ -44,8 +44,8 @@ public class Usuario {
         return email;
     }
 
-    public int getAñoNacimiento() {
-        return añoNacimiento;
+    public int getAnoNacimiento() {
+        return anoNacimiento;
     }
 
     public void setId(String _id) {
@@ -64,8 +64,8 @@ public class Usuario {
         this.email = email;
     }
 
-    public void setAñoNacimiento(int añoNacimiento) {
-        this.añoNacimiento = añoNacimiento;
+    public void setAnoNacimiento(int anoNacimiento) {
+        this.anoNacimiento = anoNacimiento;
     }
 
     /**

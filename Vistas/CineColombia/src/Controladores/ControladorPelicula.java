@@ -31,7 +31,7 @@ public class ControladorPelicula {
             JSONObject peliculaJson = (JSONObject) parser.parse(jsonString);
             nuevaPelicula.setId((String)peliculaJson.get("_id"));
             nuevaPelicula.setNombre((String)peliculaJson.get("nombre"));
-            nuevaPelicula.setAno((Integer)peliculaJson.get("ano"));
+            nuevaPelicula.setAno(((Long)peliculaJson.get("ano")).intValue());
             nuevaPelicula.setTipo((String)peliculaJson.get("tipo"));
         } catch (Exception e) {
             nuevaPelicula = null;

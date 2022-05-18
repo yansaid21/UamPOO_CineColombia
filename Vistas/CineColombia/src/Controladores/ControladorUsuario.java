@@ -32,12 +32,11 @@ public class ControladorUsuario {
             nuevoUsuario.setCedula((String)usuarioJson.get("cedula"));
             nuevoUsuario.setNombre((String)usuarioJson.get("nombre"));
             nuevoUsuario.setEmail((String)usuarioJson.get("email"));
-            nuevoUsuario.setAñoNacimiento((Integer)usuarioJson.get("añoNacimiento"));
+            nuevoUsuario.setAnoNacimiento(((Long)usuarioJson.get("anoNacimiento")).intValue());
         } catch (Exception e) {
             nuevoUsuario = null;
         }
         return nuevoUsuario;
     }
-    
     
 }

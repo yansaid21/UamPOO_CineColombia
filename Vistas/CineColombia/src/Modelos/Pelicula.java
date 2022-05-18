@@ -23,9 +23,9 @@ public class Pelicula {
     public Pelicula() {
     }
 
-    public Pelicula( String nombre, int año, String tipo) {
+    public Pelicula( String nombre, int ano, String tipo) {
         this.nombre = nombre;
-        this.ano = año;
+        this.ano = ano;
         this.tipo = tipo;
         this.misFunciones = new LinkedList<>();
     }
@@ -62,8 +62,8 @@ public class Pelicula {
         this.nombre = nombre;
     }
 
-    public void setAno(int año) {
-        this.ano = año;
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 
     public void setTipo(String tipo) {
