@@ -6,7 +6,7 @@
 package Controladores;
 
 import Modelos.Boleto;
-import Modelos.Usuario;
+
 import Servicios.Servicio;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -83,6 +83,18 @@ public class ControladorBoleto {
             respuesta = procesarJson(resultado);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
+            respuesta=null;
+        }
+        return respuesta;
+    }
+    public Boleto actualizarRelaciones(Boleto relacionado, String idClase,String clase){
+        Boleto respuesta = new Boleto();
+        try {
+            String endPoint=this.subUrl+"/"+relacionado.getId()+"/"+clase+"/"+idClase;
+            String resultado = this.miServicio.PUT(endPoint,relacionado.toJson() );
+            respuesta = procesarJson(resultado);
+        } catch (Exception e) {
+            System.out.println("ERROR aqui actualizarRelaciones"+e);
             respuesta=null;
         }
         return respuesta;

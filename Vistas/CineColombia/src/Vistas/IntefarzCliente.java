@@ -772,6 +772,8 @@ public class IntefarzCliente extends javax.swing.JFrame {
             NuevoBoleto.setMiUsuario(usuarioaux);
         
             NuevoBoleto=this.miControladorBoleto.crear(NuevoBoleto);
+            NuevoBoleto=this.miControladorBoleto.actualizarRelaciones(NuevoBoleto,funcionAux.getId(),"funcion");
+            NuevoBoleto=this.miControladorBoleto.actualizarRelaciones(NuevoBoleto,usuarioaux.getId(),"usuario");
             this.txtIdBoleto.setText(NuevoBoleto.getId());
         }
         
