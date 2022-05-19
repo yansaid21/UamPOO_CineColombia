@@ -36,7 +36,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
     ControladorSala miControladorSala;
     ControladorSilla miControladorSilla;
     ControladorUsuario miControladorUsuario;
-    String urlServidor = "http://192.168.106.234:8080";
+    String urlServidor = "http://127.0.0.1:8080";
     LinkedList<Funcion> misFunciones;
     int indexFuciones;
     LinkedList<Silla> misSillas;
