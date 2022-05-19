@@ -105,36 +105,6 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.boxFuncionBoleta.addItem(nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+laFecha);
             
         }
-//        Sala sala1= new Sala("sala1", true);
-//        Sala sala2= new Sala("sala2", false);
-//        
-//        sala1=this.miControladorSala.crear(sala1);
-//        sala2=this.miControladorSala.crear(sala2);
-//        
-//        Pelicula pelicula1= new Pelicula("Batman", 2022, "comedia");
-//        pelicula1=this.miControladorPelicula.crear(pelicula1);
-//        
-//        Funcion funcion1 = new Funcion(10, 20, 8, 22);
-//        Funcion funcion2 = new Funcion(15, 25, 4, 22);
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(IntefarzCliente.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-////        JOptionPane.showMessageDialog(this,"/funciones/sala/"+sala1.getId()+"/pelicula/"+pelicula1.getId());
-//        this.miControladorFuncion=new ControladorFuncion(urlServidor, "/funciones/sala/"+sala1.getId()+"/pelicula/"+pelicula1.getId()); 
-//        funcion1=this.miControladorFuncion.crear(funcion1,sala1,pelicula1);
-//        funcion2=this.miControladorFuncion.crear(funcion2,sala2,pelicula1);
-//        
-//        funcion1.setMiSala(sala1);
-//        System.out.println("esta vacia?"+sala1.getMisFunciones().isEmpty());
-//        sala1.getMisFunciones().size();
-//        
-//        sala2.getMisFunciones().add(funcion2);
-//        funcion2.setMiSala(sala2);
-        
-//        this.boxFuncionBoleta.addItem(funcion1.getMiSala().getNombre());
-//        this.boxFuncionBoleta.addItem(funcion2.getMiSala().getNombre());
     }
     public void boxTipoSilla(){
         this.boxSillaBoleto.removeAllItems();
@@ -883,7 +853,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
         try {
             String id = this.txtIdUsuario.getText();
             String cedula = this.txtCedulaUsuario.getText();
-            String nombre = this.txtNombrePelicula.getText();
+            String nombre = this.txtNombreUsuario.getText();
             String email = this.txtEmailUsuario.getText();
             int anoNacimiento = Integer.parseInt(this.txtAñoNacimientoUsuario.getText());
 
