@@ -299,6 +299,11 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
         btnEliminarBoleto.setBackground(new java.awt.Color(153, 153, 255));
         btnEliminarBoleto.setText("Eliminar");
+        btnEliminarBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarBoletoActionPerformed(evt);
+            }
+        });
 
         tbBoletos.setBackground(new java.awt.Color(204, 204, 255));
         tbBoletos.setModel(new javax.swing.table.DefaultTableModel(
@@ -1035,6 +1040,19 @@ public class IntefarzCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al actualizar el boleto " + e);
         }
     }//GEN-LAST:event_btnEditarBoletoActionPerformed
+
+    private void btnEliminarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarBoletoActionPerformed
+        // TODO add your handling code here:
+        try {
+            String id = this.txtIdBoleto.getText();
+            this.miControladorBoleto.eliminar(id);
+
+            JOptionPane.showMessageDialog(null, "Eliminación exitosa");
+            actualizarTablaBoletos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Eliminación sin éxito " + e);
+        }
+    }//GEN-LAST:event_btnEliminarBoletoActionPerformed
 
     /**
      * @param args the command line arguments
