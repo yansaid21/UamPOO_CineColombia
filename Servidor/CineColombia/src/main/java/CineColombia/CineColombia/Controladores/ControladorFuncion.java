@@ -71,7 +71,7 @@ public class ControladorFuncion {
         FuncionActual.setMes(infoFuncion.getMes());
         return this.miRepositorioFuncion.save(FuncionActual);
     }
-    @PutMapping("{id}/{id_sala}/pelicula/{id_pelicula}")
+    @PutMapping("{id}/sala/{id_sala}/pelicula/{id_pelicula}")
     public Funcion update(@PathVariable String id,@RequestBody  Funcion infoFuncion,@PathVariable String id_sala, @PathVariable String id_pelicula){
         Funcion FuncionActual=this.miRepositorioFuncion
                 .findById(id)
