@@ -7,6 +7,7 @@ package Controladores;
 
 import Modelos.Funcion;
 import Modelos.Pelicula;
+import Modelos.Usuario;
 import Servicios.Servicio;
 import java.util.LinkedList;
 import org.json.simple.JSONArray;
@@ -96,6 +97,19 @@ public class ControladorPelicula {
                 nuevaPelicula=armar(peliculaJSON);
                 respuesta.add(nuevaPelicula);
             }
+        } catch (Exception e) {
+            System.out.println("Error " + e);
+            respuesta = null;
+        }
+        return respuesta;
+    }
+    
+    public Pelicula buscarPorNombre(String nombre) {
+        Pelicula respuesta = new Pelicula();
+        try {
+            String endPoint = this.subUrl + "/nombre/" + nombre;
+            String resultado = this.miServicio.GET(endPoint);
+            respuesta = procesarJson(resultado);
         } catch (Exception e) {
             System.out.println("Error " + e);
             respuesta = null;

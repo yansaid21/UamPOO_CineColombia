@@ -1,6 +1,7 @@
 package CineColombia.CineColombia.Controladores;
 
 import CineColombia.CineColombia.Modelos.Pelicula;
+import CineColombia.CineColombia.Modelos.Usuario;
 import CineColombia.CineColombia.Repositorios.RepositorioPelicula;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,10 @@ public class ControladorPelicula {
         return this.miRepositorioPelicula.save(PeliculaActual);
     }
 
-
+    @GetMapping("/nombre/{nombre}")
+    public Pelicula buscarPorNombre(@PathVariable String nombre){
+        Pelicula peliculaActual=this.miRepositorioPelicula.getPelicula(nombre);
+        return peliculaActual;
+    }
 
 }

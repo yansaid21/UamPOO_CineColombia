@@ -814,7 +814,17 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
     private void btnBuscarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPeliculaActionPerformed
         // TODO add your handling code here:
+        String nombre = this.txtNombrePelicula.getText();
+        Pelicula encontrado = this.miControladorPelicula.buscarPorNombre(nombre);
+        if (encontrado != null) {
+            this.txtIdPelicula.setText(encontrado.getId());
+            this.txtNombrePelicula.setText(encontrado.getNombre());
+            this.txtAñoPelicula.setText(""+encontrado.getAno());
+            this.txtTipoPelicula.setText(encontrado.getTipo());
 
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró la película");
+        }
     }//GEN-LAST:event_btnBuscarPeliculaActionPerformed
 
     private void btnEditarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeliculaActionPerformed

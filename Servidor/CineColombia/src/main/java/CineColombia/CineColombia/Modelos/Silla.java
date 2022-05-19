@@ -12,8 +12,7 @@ public class Silla {
     String _id;
     String letra;
     int numero;
-    @DBRef
-    Boleto boleto;
+
     @DBRef
     Sala sala;
 
@@ -25,13 +24,6 @@ public class Silla {
         this.sala = sala;
     }
 
-    public Boleto getBoleto() {
-        return boleto;
-    }
-
-    public void setBoleto(Boleto boleto) {
-        this.boleto = boleto;
-    }
 
     public Silla(String letra, int numero) {
         this.letra = letra;

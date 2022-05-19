@@ -64,18 +64,7 @@ public class ControladorSilla {
         sillaActual.setNumero(infoSilla.getNumero());
         return this.miRepositorioSilla.save(sillaActual);
     }
-    @PutMapping("{id_silla}/boleto/{id_boleto}")
-    public Silla updateBoleto(@PathVariable String id_silla, @PathVariable  String id_boleto){
-        Silla sillaActual=this.miRepositorioSilla
-                .findById(id_silla)
-                .orElseThrow(RuntimeException::new);
-        Boleto boletoActual=this.miRepositorioBoleto
-                .findById(id_boleto)
-                .orElseThrow(RuntimeException::new);
 
-        sillaActual.setBoleto(boletoActual); ;
-        return this.miRepositorioSilla.save(sillaActual);
-    }
     @PutMapping("{id_silla}/sala/{id_sala}")
     public Silla updateSala(@PathVariable String id_silla, @PathVariable  String id_sala){
         Silla sillaActual=this.miRepositorioSilla
