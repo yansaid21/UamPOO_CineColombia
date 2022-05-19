@@ -17,6 +17,16 @@ public class Boleto {
     Usuario usuario;
     @DBRef
     Funcion funcion;
+    @DBRef
+    Silla silla;
+
+    public Silla getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Silla silla) {
+        this.silla = silla;
+    }
 
     public Funcion getFuncion() {
         return funcion;

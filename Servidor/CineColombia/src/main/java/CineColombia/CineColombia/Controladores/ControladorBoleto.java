@@ -2,9 +2,11 @@ package CineColombia.CineColombia.Controladores;
 
 import CineColombia.CineColombia.Modelos.Boleto;
 import CineColombia.CineColombia.Modelos.Funcion;
+import CineColombia.CineColombia.Modelos.Silla;
 import CineColombia.CineColombia.Modelos.Usuario;
 import CineColombia.CineColombia.Repositorios.RepositorioBoleto;
 import CineColombia.CineColombia.Repositorios.RepositorioFuncion;
+import CineColombia.CineColombia.Repositorios.RepositorioSilla;
 import CineColombia.CineColombia.Repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,8 @@ public class ControladorBoleto {
     private RepositorioUsuario miRepositorioUsuario;
     @Autowired
     private RepositorioFuncion miRepositorioFuncion;
+    @Autowired
+    private RepositorioSilla miRepositorioSilla;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -88,6 +92,18 @@ public class ControladorBoleto {
         boletoActual.setFuncion(funcionActual); ;
         return this.miRepositorioBoleto.save(boletoActual);
     }
+    @PutMapping("{id_boleto}/silla/{id_silla}")
+    public Boleto updateSilla(@PathVariable String id_boleto, @PathVariable  String id_silla){
+        Boleto boletoActual=this.miRepositorioBoleto
+                .findById(id_boleto)
+                .orElseThrow(RuntimeException::new);
 
+        Silla sillaActual = this.miRepositorioSilla
+                .findById(id_silla)
+                .orElseThrow(RuntimeException::new);
+
+        boletoActual.setSilla(sillaActual); ;
+        return this.miRepositorioBoleto.save(boletoActual);
+    }
 
 }

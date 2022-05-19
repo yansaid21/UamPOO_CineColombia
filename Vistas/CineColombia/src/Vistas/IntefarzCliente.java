@@ -56,6 +56,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
         boxTipoFuncion();
         actualizarTablaPeliculas();
         actualizarTablaUsuarios();
+        actualizarTablaBoletos();
     }
 
     public void actualizarTablaPeliculas(){
@@ -86,6 +87,27 @@ public class IntefarzCliente extends javax.swing.JFrame {
             miModelo.addRow(fila);
         }
     }
+        public void actualizarTablaBoletos(){
+        String nombresColumnas[] = {"Nombre Usuario", "Tipo", "Valor", "Función","silla"};
+        DefaultTableModel miModelo = new DefaultTableModel(null, nombresColumnas);
+        this.tbBoletos.setModel(miModelo);
+        LinkedList<Boleto> boletos=this.miControladorBoleto.listar();
+        for (Boleto actual:boletos) {
+            String numeroSilla=" "+actual.getMiSilla().getNumero();
+            String letraSilla=actual.getMiSilla().getLetra();
+            System.out.println("ID Boleto "+actual.getId());
+            Funcion funcionAux=actual.getMiFuncion();
+            System.out.println("Hora funcion "+funcionAux.getHora());
+            String salaHora=datosFuncion(funcionAux);
+            String fila[] = new String[nombresColumnas.length];
+            fila[0] = actual.getMiUsuario().getNombre();
+            fila[1] = actual.getTipo();
+            fila[2] = ""+actual.getValor();
+            fila[3] = salaHora;
+            fila[4] = letraSilla+ numeroSilla;
+            miModelo.addRow(fila);
+        }
+    }
     
     public void boxTipoBoleto(){
         this.boxTipoBoleto.removeAllItems();
@@ -95,22 +117,26 @@ public class IntefarzCliente extends javax.swing.JFrame {
     
     public void boxTipoFuncion(){
         this.boxFuncionBoleta.removeAllItems();
-        this.boxFuncionBoleta.addItem("elige uno...");
         this.misFunciones= this.miControladorFuncion.listar();
         
         for(Funcion funcionActual:this.misFunciones){      
-            String nombreSala=funcionActual.getMiSala().getNombre();
-            String nombrePelicula= funcionActual.getMiPelicula().getNombre();
-            String laFecha=""+funcionActual.getDia()+"-"+funcionActual.getMes()+"-"+funcionActual.getAno();
-            this.boxFuncionBoleta.addItem(nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+laFecha);
+            String resultado=datosFuncion(funcionActual);
+            this.boxFuncionBoleta.addItem(resultado);
             
         }
+    }
+    public String datosFuncion( Funcion funcionActual){
+        String nombreSala=funcionActual.getMiSala().getNombre();
+            String nombrePelicula= funcionActual.getMiPelicula().getNombre();
+            String laFecha=""+funcionActual.getDia()+"-"+funcionActual.getMes()+"-"+funcionActual.getAno();
+            String salaHora=nombreSala+": "+ nombrePelicula+" Hora: "+funcionActual.getHora()+" fecha: "+laFecha;
+            return salaHora;
     }
     public void boxTipoSilla(){
         this.boxSillaBoleto.removeAllItems();
         
         System.out.println("selected item "+ this.boxFuncionBoleta.getSelectedItem());
-        Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
+        Funcion funcionAux=this.misFunciones.get(this.indexFuciones);
             this.boxSillaBoleto.removeAllItems();
             Sala SalaAux=funcionAux.getMiSala();
             System.out.println("nombre sala "+SalaAux.getNombre());
@@ -735,16 +761,20 @@ public class IntefarzCliente extends javax.swing.JFrame {
             Silla miSilla=this.misSillas.get(this.boxSillaBoleto.getSelectedIndex());
        
             Boleto NuevoBoleto= new Boleto(valor, tipo);
-            Funcion funcionAux=this.misFunciones.get(this.indexFuciones-1);
+            Funcion funcionAux=this.misFunciones.get(this.indexFuciones);
 
             NuevoBoleto.setMiSilla(miSilla);
             NuevoBoleto.setMiFuncion(funcionAux);
             NuevoBoleto.setMiUsuario(usuarioaux);
+//            miSilla.setMiBoleto(NuevoBoleto);
+//            usuarioaux.getMisBoletos().add(NuevoBoleto);
         
             NuevoBoleto=this.miControladorBoleto.crear(NuevoBoleto);
+            NuevoBoleto=this.miControladorBoleto.actualizarRelaciones(NuevoBoleto, miSilla.getId(), "silla");
             NuevoBoleto=this.miControladorBoleto.actualizarRelaciones(NuevoBoleto,funcionAux.getId(),"funcion");
             NuevoBoleto=this.miControladorBoleto.actualizarRelaciones(NuevoBoleto,usuarioaux.getId(),"usuario");
             this.txtIdBoleto.setText(NuevoBoleto.getId());
+            actualizarTablaBoletos();
         }
         
         

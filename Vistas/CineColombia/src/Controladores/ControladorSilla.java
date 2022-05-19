@@ -6,7 +6,9 @@
 package Controladores;
 
 
+import Modelos.Boleto;
 import Modelos.Silla;
+import Modelos.Usuario;
 import Servicios.Servicio;
 import java.util.LinkedList;
 import org.json.simple.JSONArray;
@@ -20,10 +22,12 @@ import org.json.simple.parser.JSONParser;
 public class ControladorSilla {
     Servicio miServicio;
     String subUrl;
+    ControladorBoleto miControladorBoleto;
 
     public ControladorSilla(String server, String subUrl) {
         this.miServicio = new Servicio(server);
         this.subUrl = subUrl;
+//        this.miControladorBoleto = new ControladorBoleto(server, "/boletos");
     }
         public Silla armar(JSONObject SillaJson){
         Silla nuevoSilla = new Silla();
@@ -31,8 +35,14 @@ public class ControladorSilla {
             nuevoSilla.setId((String)SillaJson.get("_id"));
             nuevoSilla.setLetra((String)SillaJson.get("letra"));
             nuevoSilla.setNumero(((Long)SillaJson.get("numero")).intValue());
+//            if(SillaJson.get("boleto")!=null){
+//                 JSONObject usuarioJson=(JSONObject)SillaJson.get("boleto");
+//            Boleto elBoleto=this.miControladorBoleto.armar(SillaJson);
+//            System.out.println("el id boleto "+ elBoleto.getId());
+//            nuevoSilla.setMiBoleto(elBoleto);
+//            }
         } catch (Exception e) {
-            System.out.println("ERROR "+e);
+            System.out.println("ERROR al armar la silla "+e);
             nuevoSilla = null;
         }
         return nuevoSilla;
@@ -62,6 +72,7 @@ public class ControladorSilla {
             System.out.println("ERROR "+e);
             respuesta=null;
         }
+//        respuesta.setMiBoleto(nuevoSilla.getMiBoleto());
         return respuesta;
     }
     
@@ -134,5 +145,18 @@ public class ControladorSilla {
         }
         return respuesta;
     }
+    
+//    public Silla actualizarRelaciones(Silla relacionado, String idClase,String clase){
+//        Silla respuesta = new Silla();
+//        try {
+//            String endPoint=this.subUrl+"/"+relacionado.getId()+"/"+clase+"/"+idClase;
+//            String resultado = this.miServicio.PUT(endPoint,relacionado.toJson() );
+//            respuesta = procesarJson(resultado);
+//        } catch (Exception e) {
+//            System.out.println("ERROR aqui actualizarRelacionesSilla "+e);
+//            respuesta=null;
+//        }
+//        return respuesta;
+//    }
     
 }

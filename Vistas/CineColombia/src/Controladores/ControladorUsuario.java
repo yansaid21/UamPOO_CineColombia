@@ -5,7 +5,6 @@
  */
 package Controladores;
 
-import Modelos.Pelicula;
 import Modelos.Usuario;
 import Servicios.Servicio;
 import java.util.LinkedList;

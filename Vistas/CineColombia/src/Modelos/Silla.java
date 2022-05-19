@@ -15,6 +15,15 @@ public class Silla {
     String _id;
     String letra;
     int numero;
+    Boleto miBoleto;
+
+    public Boleto getMiBoleto() {
+        return miBoleto;
+    }
+
+    public void setMiBoleto(Boleto miBoleto) {
+        this.miBoleto = miBoleto;
+    }
 
     public Silla() {
     }
