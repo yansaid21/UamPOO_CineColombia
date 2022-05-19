@@ -280,9 +280,19 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
         btnBuscarBoleto.setBackground(new java.awt.Color(153, 153, 255));
         btnBuscarBoleto.setText("Buscar");
+        btnBuscarBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarBoletoActionPerformed(evt);
+            }
+        });
 
         btnEditarBoleto.setBackground(new java.awt.Color(153, 153, 255));
         btnEditarBoleto.setText("Editar");
+        btnEditarBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarBoletoActionPerformed(evt);
+            }
+        });
 
         btnEliminarBoleto.setBackground(new java.awt.Color(153, 153, 255));
         btnEliminarBoleto.setText("Eliminar");
@@ -341,7 +351,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -488,7 +498,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -648,7 +658,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
                         .addComponent(btnEditarUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminarUsuario)))
-                .addContainerGap(296, Short.MAX_VALUE))
+                .addContainerGap(283, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -695,13 +705,13 @@ public class IntefarzCliente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(280, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(231, 231, 231))
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -927,6 +937,93 @@ public class IntefarzCliente extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_boxFuncionBoletaItemStateChanged
+
+    private void btnBuscarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarBoletoActionPerformed
+        // TODO add your handling code here:
+        String cedulaUsuario = this.txtCedulaUsuarioBoleto.getText();
+        LinkedList <Boleto> boletos=this.miControladorBoleto.listar();
+        Boleto encontrado = new Boleto();
+        for(Boleto boletoActual: boletos){
+            Usuario actual=boletoActual.getMiUsuario();
+            if(cedulaUsuario.equals(actual.getCedula())){
+                encontrado = boletoActual;
+                System.out.println("boletoencontrado **********"+encontrado);
+            }else{
+                System.out.println("boleto no encontrado");
+            }
+                
+        }
+        if (encontrado != null) {
+            this.txtIdBoleto.setText(encontrado.getId());
+            this.txtValorBoleto.setText(""+encontrado.getValor());
+            this.txtCedulaUsuarioBoleto.setText(encontrado.getMiUsuario().getCedula());
+            this.boxTipoBoleto.removeAllItems();
+            this.boxTipoBoleto.addItem(encontrado.getTipo());
+            this.boxFuncionBoleta.removeAllItems();
+            String funcionEncontrado=datosFuncion(encontrado.getMiFuncion());
+            this.boxFuncionBoleta.addItem(funcionEncontrado);
+            this.boxSillaBoleto.removeAllItems();
+            String numeroSilla= ""+encontrado.getMiSilla().getNumero();
+            String sillaEncontrado = encontrado.getMiSilla().getLetra()+numeroSilla;
+            this.boxSillaBoleto.addItem(sillaEncontrado);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró el boleto");
+        }
+        
+    }//GEN-LAST:event_btnBuscarBoletoActionPerformed
+
+    private void btnEditarBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarBoletoActionPerformed
+        // TODO add your handling code here:
+        try {
+            String id = this.txtIdBoleto.getText();
+            double valor = Double.parseDouble(this.txtValorBoleto.getText());
+            String tipo = ""+this.boxTipoBoleto.getSelectedItem();
+            Usuario usuarioaux=this.miControladorUsuario.buscarPorCedula(txtCedulaUsuarioBoleto.getText());
+//            Silla sillaaux=""+this.boxSillaBoleto.getSelectedItem();
+            if(usuarioaux==null){
+                JOptionPane.showMessageDialog(this, "Usuario no encotrado");
+            }else{
+                System.out.println("encontrado con exito");
+                Silla miSilla=this.misSillas.get(this.boxSillaBoleto.getSelectedIndex());
+
+                Boleto boletoActualizado = new Boleto(valor, tipo);
+                Funcion funcionAux=this.misFunciones.get(this.indexFuciones);
+                
+                boletoActualizado.setId(id);
+                
+                boletoActualizado.setMiSilla(miSilla);
+                boletoActualizado.setMiFuncion(funcionAux);
+                boletoActualizado.setMiUsuario(usuarioaux);
+    //            miSilla.setMiBoleto(NuevoBoleto);
+    //            usuarioaux.getMisBoletos().add(NuevoBoleto);
+                boletoActualizado=this.miControladorBoleto.actualizarRelaciones(boletoActualizado, miSilla.getId(), "silla");
+                System.out.println("000000,,,,,--------antes de "+boletoActualizado.getValor());
+                boletoActualizado=this.miControladorBoleto.actualizarRelaciones(boletoActualizado,funcionAux.getId(),"funcion");
+                boletoActualizado=this.miControladorBoleto.actualizarRelaciones(boletoActualizado,usuarioaux.getId(),"usuario");
+                System.out.println("000000,,,,,--------"+boletoActualizado.getValor());
+                Boleto BoletoActualizado = this.miControladorBoleto.actualizar(boletoActualizado);
+
+                
+                System.out.println("hasta aqui nice");
+                this.txtIdBoleto.setText(BoletoActualizado.getId());
+                this.txtValorBoleto.setText(""+BoletoActualizado.getValor());
+                this.txtCedulaUsuario.setText(BoletoActualizado.getMiUsuario().getCedula());
+                this.boxTipoBoleto.removeAllItems();
+                this.boxTipoBoleto.addItem(BoletoActualizado.getTipo());
+                this.boxFuncionBoleta.removeAllItems();
+                String funcionEncontrado=datosFuncion(BoletoActualizado.getMiFuncion());
+                this.boxFuncionBoleta.addItem(funcionEncontrado);
+                this.boxSillaBoleto.removeAllItems();
+                String numeroSilla= ""+BoletoActualizado.getMiSilla().getNumero();
+                String sillaEncontrado = BoletoActualizado.getMiSilla().getLetra()+numeroSilla;
+                this.boxSillaBoleto.addItem(sillaEncontrado);
+
+                actualizarTablaBoletos();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el boleto "+ e);
+        }
+    }//GEN-LAST:event_btnEditarBoletoActionPerformed
 
     /**
      * @param args the command line arguments

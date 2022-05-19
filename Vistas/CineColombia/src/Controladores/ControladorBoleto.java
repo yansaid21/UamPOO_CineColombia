@@ -108,7 +108,9 @@ public class ControladorBoleto {
     public Boleto actualizar (Boleto nuevoBoleto){
         Boleto respuesta = new Boleto();
         try {
-            String resultado = this.miServicio.PUT(this.subUrl, nuevoBoleto.toJson());
+            System.out.println("boleto json verificar 3"+ nuevoBoleto.toJson());
+            String endPoint = this.subUrl+"/"+ nuevoBoleto.getId();
+            String resultado = this.miServicio.PUT(endPoint, nuevoBoleto.toJson());
             respuesta = procesarJson(resultado);
         } catch (Exception e) {
             System.out.println("ERROR "+e);
