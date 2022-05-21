@@ -152,6 +152,27 @@ public class IntefarzCliente extends javax.swing.JFrame {
         }
 
     }
+    
+    public void LimpiarCamposBoleto(){
+        this.txtIdBoleto.setText("");
+        this.txtValorBoleto.setText("");
+        this.txtCedulaUsuarioBoleto.setText("");
+    }
+    
+    public void LimpiarCamposUsuario(){
+        this.txtIdUsuario.setText("");
+        this.txtNombreUsuario.setText("");
+        this.txtEmailUsuario.setText("");
+        this.txtAñoNacimientoUsuario.setText("");
+        this.txtCedulaUsuario.setText("");
+    }
+    
+    public void LimpiarCamposPelicula(){
+        this.txtIdPelicula.setText("");
+        this.txtNombrePelicula.setText("");
+        this.txtTipoPelicula.setText("");
+        this.txtAñoPelicula.setText("");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -793,6 +814,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
             NuevoBoleto = this.miControladorBoleto.actualizarRelaciones(NuevoBoleto, usuarioaux.getId(), "usuario");
             this.txtIdBoleto.setText(NuevoBoleto.getId());
             actualizarTablaBoletos();
+            JOptionPane.showMessageDialog(this, "Boleto creado con id "+NuevoBoleto.getId());
         }
 
 
@@ -826,7 +848,6 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.txtNombrePelicula.setText(encontrado.getNombre());
             this.txtAñoPelicula.setText(""+encontrado.getAno());
             this.txtTipoPelicula.setText(encontrado.getTipo());
-
         } else {
             JOptionPane.showMessageDialog(null, "No se encontró la película");
         }
@@ -849,7 +870,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.txtNombrePelicula.setText(actualizado.getNombre());
             this.txtAñoPelicula.setText("" + actualizado.getAno());
             this.txtTipoPelicula.setText(actualizado.getTipo());
+            JOptionPane.showMessageDialog(this, "Pelicula actualizada con éxito");
             actualizarTablaPeliculas();
+            LimpiarCamposPelicula();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar la pelicula " + e);
         }
@@ -864,6 +887,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Eliminación exitosa");
             actualizarTablaPeliculas();
+            LimpiarCamposPelicula();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Eliminación sin éxito " + e);
         }
@@ -924,8 +948,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
             this.txtNombreUsuario.setText(actualizado.getNombre());
             this.txtEmailUsuario.setText(actualizado.getEmail());
             this.txtAñoNacimientoUsuario.setText("" + actualizado.getAnoNacimiento());
-
+            JOptionPane.showMessageDialog(this, "Usuario actualizado correctamente");
             actualizarTablaUsuarios();
+            LimpiarCamposUsuario();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el usuario " + e);
         }
@@ -939,6 +964,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Eliminación exitosa");
             actualizarTablaUsuarios();
+            LimpiarCamposUsuario();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Eliminación sin éxito " + e);
         }
@@ -1033,8 +1059,9 @@ public class IntefarzCliente extends javax.swing.JFrame {
                 String numeroSilla = "" + BoletoActualizado.getMiSilla().getNumero();
                 String sillaEncontrado = BoletoActualizado.getMiSilla().getLetra() + numeroSilla;
                 this.boxSillaBoleto.addItem(sillaEncontrado);
-
+                JOptionPane.showMessageDialog(this, "Boleto actualizado");
                 actualizarTablaBoletos();
+                LimpiarCamposBoleto();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el boleto " + e);
@@ -1049,6 +1076,7 @@ public class IntefarzCliente extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Eliminación exitosa");
             actualizarTablaBoletos();
+            LimpiarCamposBoleto();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Eliminación sin éxito " + e);
         }
